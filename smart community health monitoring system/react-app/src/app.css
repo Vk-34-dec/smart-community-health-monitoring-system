@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+:root{--bg:#eef6ff;--card:#fff;--muted:#6b7280;--accent:#2563eb}
+*{box-sizing:border-box}
+.app-root{display:grid;grid-template-columns:240px 1fr 360px;gap:20px;padding:20px}
+.sidebar{background:var(--accent);color:#fff;padding:18px;border-radius:12px}
+.main{display:flex;flex-direction:column;gap:16px}
+.topbar{display:flex;justify-content:space-between;align-items:center}
+.hero{display:flex;gap:16px;background:linear-gradient(180deg,#fff,#f3f8ff);padding:18px;border-radius:12px}
+.cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:var(--card);padding:12px;border-radius:10px}
+.analytics-row{display:grid;grid-template-columns:1fr 300px 260px;gap:12px}
+.rightcol{display:flex;flex-direction:column;gap:12px}
+.mobile-mockup img{width:180px;border-radius:12px}
+
+:root{
+	--bg:#eef6ff;
+	--card:#ffffff;
+	--muted:#6b7280;
+	--accent:#2563eb;
+	--accent-2:#7c3aed;
+	--radius:16px;
+	--sidebar:#0f3b72;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+body{background:linear-gradient(180deg,#f5f9ff 0%, #eef6ff 100%);color:#0f1724}
+.app-root{display:grid;grid-template-columns:260px 1fr 360px;gap:24px;padding:28px;align-items:start}
+.sidebar{background:var(--sidebar);color:#fff;border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:20px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{font-size:26px;background:#fff;color:var(--sidebar);width:50px;height:50px;display:flex;align-items:center;justify-content:center;border-radius:14px}
+.brand-text{font-weight:600}
+.profile{display:flex;gap:12px;align-items:center}
+.profile img{width:52px;height:52px;border-radius:10px}
+.name{font-weight:600}
+.name span{font-weight:400;opacity:.8}
+.nav{display:flex;flex-direction:column;gap:8px}
+.nav a{padding:10px 12px;border-radius:10px;color:rgba(255,255,255,0.95);text-decoration:none;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:600}
+.nav a .nav-icon{width:28px;height:28px;flex:0 0 28px;display:inline-block}
+.nav a .nav-icon use{fill:#ffffff;opacity:0.95}
+.nav a .nav-icon{background:rgba(255,255,255,0.06);border-radius:8px;display:flex;align-items:center;justify-content:center;padding:4px}
+.nav a.active{background:linear-gradient(90deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03))}
+.nav a.logout{margin-top:8px;color:#ffd1d1}
+
+.main{display:flex;flex-direction:column;gap:18px}
+.topbar{display:flex;justify-content:space-between;align-items:center}
+.toplinks{display:flex;gap:18px;list-style:none;padding:0;margin:0;color:var(--muted)}
+.toplinks li{cursor:pointer}
+.btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+.btn-primary{background:linear-gradient(90deg,#2b6ef6,#6fb1ff);color:#fff}
+.hero{display:flex;gap:20px;background:linear-gradient(180deg,#ffffff 0%, #f3f8ff 100%);padding:28px;border-radius:18px;align-items:center}
+.hero-left{flex:1}
+.hero-left h1{font-size:36px;margin:0;line-height:1.02}
+.hero-left h1 span{color:var(--accent);background:linear-gradient(90deg,#2563eb,#6fb1ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-left p{color:var(--muted);margin-top:12px}
+.hero-actions{margin-top:16px;display:flex;gap:12px}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:transparent;border:1px solid rgba(16,24,40,0.06)}
+.hero-right{width:460px}
+.illustration img{width:100%;height:auto;border-radius:14px;box-shadow:0 14px 40px rgba(16,24,40,0.08)}
+
+.dashboard-overview{display:flex;flex-direction:column;gap:18px}
+.cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:stretch}
+.card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 28px rgba(15,23,42,0.06)}
+.card.big{grid-column:span 2}
+.card-title{color:var(--muted);font-weight:700;font-size:13px}
+.card-value{font-size:24px;font-weight:800;margin-top:8px}
+.card-value.green{color:#16a34a}
+.card-value.purple{color:#7c3aed}
+.card.danger{background:linear-gradient(90deg,#ffecec,#fff6f6)}
+
+.analytics-row{display:grid;grid-template-columns:1fr 320px 280px;gap:18px}
+.panel{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(15,23,42,0.04)}
+.chart-placeholder,.pie-placeholder{height:140px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.recent-alerts ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.recent-alerts li{display:flex;justify-content:space-between;color:var(--muted)}
+
+.rightcol{display:flex;flex-direction:column;gap:16px;align-items:stretch}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.stat{background:linear-gradient(180deg,#ffffff,#fbfdff);padding:14px;border-radius:12px;text-align:center;font-weight:700}
+.realtime{background:var(--card);padding:14px;border-radius:12px}
+.realtime-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.meter{background:linear-gradient(180deg,#fbfdff,#f5f9ff);padding:12px;border-radius:10px;text-align:center}
+.appointments{background:var(--card);padding:14px;border-radius:12px}
+.appointments ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.appointments li{display:flex;justify-content:space-between;align-items:center}
+.confirmed{background:#ecfdf5;padding:6px 10px;border-radius:10px;color:#065f46;font-weight:700}
+.pending{background:#fff7ed;padding:6px 10px;border-radius:10px;color:#92400e;font-weight:700}
+
+.mobile-mockup{background:linear-gradient(180deg,#fff,#f7fbff);padding:12px;border-radius:14px;display:flex;justify-content:center;align-items:center;box-shadow:0 10px 30px rgba(16,24,40,0.06)}
+.mobile-mockup img{width:200px;border-radius:18px}
+
+@media (max-width:1100px){
+	.app-root{grid-template-columns:220px 1fr;grid-template-rows:auto auto 1fr}
+	.rightcol{grid-column:1/-1;order:3}
+}
+@media (max-width:800px){
+	.app-root{grid-template-columns:1fr;padding:12px}
+	.sidebar{display:none}
+	.hero-right{display:none}
+	.cards-grid{grid-template-columns:repeat(2,1fr)}
+	.analytics-row{grid-template-columns:1fr}
+}

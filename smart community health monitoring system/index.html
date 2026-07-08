@@ -1,0 +1,2507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Community Health Monitoring System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+
+  <!-- Global UI Elements -->
+  <div id="loader"><div class="spinner"></div></div>
+  <div id="toast-container"></div>
+
+  <!-- Auth Screens -->
+  <div id="auth-screens">
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="auth-container">
+
+      <!-- Feature Floating Bar -->
+      <div class="feature-bar-left">
+        <div class="feat-badge">
+          <div class="f-icon-circle blue">🛡️</div>
+          <span class="f-label">Secure<br>& Private</span>
+        </div>
+        <div class="feat-badge">
+          <div class="f-icon-circle green">📋</div>
+          <span class="f-label">Health<br>Records</span>
+        </div>
+        <div class="feat-badge">
+          <div class="f-icon-circle purple">🔔</div>
+          <span class="f-label">Reminders<br>& Alerts</span>
+        </div>
+        <div class="feat-badge">
+          <div class="f-icon-circle red">❤️</div>
+          <span class="f-label">Health<br>Tracking</span>
+        </div>
+      </div>
+
+      <!-- Left Visual Side -->
+      <div class="auth-side">
+        <div class="auth-logo-top">
+          <img src="https://cdn-icons-png.flaticon.com/512/2376/2376100.png" alt="Logo">
+          <div class="logo-text">
+            Smart Community
+            <span>Health Monitoring System</span>
+          </div>
+        </div>
+
+        <h1 class="welcome-title">Welcome<br><span>Back!</span></h1>
+        <p class="welcome-sub">Manage your health, anytime, anywhere with Smart Community.</p>
+
+        <div class="visual-content">
+          <div class="character-platform"></div>
+          <img src="vignesh.png" class="vignesh-character" alt="Vignesh">
+
+          <div class="potted-plant">
+            <img src="https://cdn-icons-png.flaticon.com/512/628/628283.png" alt="Plant">
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Form Side -->
+      <div class="auth-form-wrap">
+        <div class="auth-card-premium">
+          <div class="card-3d-heart">
+            <img src="https://cdn-icons-png.flaticon.com/512/822/822118.png" alt="Heart">
+          </div>
+
+          <h2>Login</h2>
+          <p class="subtext">Sign in to continue</p>
+
+          <form id="loginForm" class="premium-form">
+            <div class="input-field-group">
+              <label>Email Address</label>
+              <div class="input-premium-wrap">
+                <span class="icon">✉️</span>
+                <input type="email" name="email" placeholder="Enter your email" required>
+              </div>
+            </div>
+
+            <div class="input-field-group">
+              <label>Password</label>
+              <div class="input-premium-wrap">
+                <span class="icon">🔒</span>
+                <input type="password" name="password" placeholder="Enter your password" required>
+                <span class="toggle-password-premium">👁️</span>
+              </div>
+            </div>
+
+            <div class="form-options">
+              <label class="check-premium">
+                <input type="checkbox" id="rememberMe"> Remember Me
+              </label>
+              <a href="#" id="toForgot" class="forgot-premium">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn-login-premium">
+              <span class="inner-icon">✉️</span> Login <span class="arrow-icon">➔</span>
+            </button>
+
+            <div class="premium-divider">
+              <span>or continue with</span>
+            </div>
+
+            <div class="premium-social-btns">
+              <button type="button" class="btn-soc">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" width="22"> Google
+              </button>
+              <button type="button" class="btn-soc">
+                <span style="font-size: 20px;">📞</span> Phone
+              </button>
+            </div>
+
+            <div class="auth-footer-text">
+              Don't have an account? <a href="#" id="toRegister">Create Account</a>
+            </div>
+          </form>
+        </div>
+
+        <div class="security-badge-bottom">
+          <div class="s-icon">🛡️</div>
+          <div class="s-content">
+            <strong>Your health information is safe with us.</strong>
+            <span>We care for you and your family.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Forgot Password Screen -->
+    <div id="forgot-screen" class="auth-container" style="display:none; justify-content: center; align-items: center; background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);">
+      <div class="auth-card-premium" style="max-width: 450px;">
+        <div class="card-3d-heart" style="background: #eef4ff;">
+            <img src="https://cdn-icons-png.flaticon.com/512/6195/6195699.png" width="60" alt="Forgot Password Icon">
+        </div>
+        <h2 style="font-size: 32px; margin-bottom: 10px;">Forgot Password?</h2>
+        <p class="subtext" style="margin-bottom: 40px;">No worries! Enter your email and we'll send you a link to reset your password.</p>
+
+        <form id="forgotForm" class="premium-form">
+            <div class="input-field-group">
+                <label>Email Address</label>
+                <div class="input-premium-wrap">
+                    <span class="icon">✉️</span>
+                    <input type="email" id="forgot-email" placeholder="Enter your registered email" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login-premium" style="margin-top: 10px; height: 60px;">
+                Send Reset Link <span class="arrow-icon">➔</span>
+            </button>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="#" class="backToLoginLink" style="color:var(--primary); font-size: 16px; text-decoration: none; font-weight: 800;">← Back to Login</a>
+            </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Verify Email Screen -->
+    <div id="verify-screen" class="auth-container" style="display:none; justify-content: center; align-items: center;">
+        <div class="auth-card" style="margin: auto; max-width: 450px;">
+            <div class="verify-illustration">
+                <img src="https://img.freepik.com/free-vector/email-campaign-concept-illustration_114360-1081.jpg" alt="Verify Email" style="max-height: 180px;">
+            </div>
+            <h2 style="margin-bottom: 10px; font-size: 24px;">Verify Your Email</h2>
+            <p style="color:var(--gray); margin-bottom: 30px; font-size: 14px;">We have sent a verification link to <br><b id="verify-email-display" style="color: var(--primary);">example@gmail.com</b></p>
+
+            <div class="verify-steps">
+                <div class="verify-step"><span>1</span> Check your email inbox</div>
+                <div class="verify-step"><span>2</span> Click on the verification link</div>
+                <div class="verify-step"><span>3</span> Login to your account</div>
+            </div>
+
+            <p style="font-size: 14px; color: var(--gray); margin-top: 30px;">Didn't receive the email?</p>
+            <button type="button" id="resendVerify" style="background:none; border:none; color:var(--primary); font-weight:600; cursor:pointer; font-size: 14px; margin-top: 5px;">Resend Email</button>
+
+            <div style="text-align: center; margin-top: 25px;">
+                <a href="#" class="backToLoginLink" style="color:var(--primary); font-size: 15px; text-decoration: none; font-weight: 600;">Back to Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Screen -->
+    <div id="register-screen" class="register-container" style="display:none;">
+        <div class="register-card-premium">
+            <div style="position: absolute; top: 30px; left: 40px;">
+                <a href="#" class="backToLoginLink" style="color:var(--primary); font-size:15px; text-decoration:none; font-weight: 700; display:flex; align-items:center; gap:8px;">
+                    <span style="font-size: 20px;">←</span> Back to Login
+                </a>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 40px; margin-top: 20px;">
+                <h2 style="font-size: 42px; font-weight: 850; color: #1e293b; letter-spacing: -1.5px;">Create Account</h2>
+                <p style="color:var(--gray); font-size: 18px; font-weight: 500;">Join our smart health community today</p>
+            </div>
+
+            <form id="registerForm" class="premium-form">
+                <div class="register-section-title">Personal Information</div>
+                <div class="register-grid">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <div class="input-premium-wrap">
+                            <span class="icon">👤</span>
+                            <input type="text" name="fullname" placeholder="Enter full name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-premium-wrap">
+                            <span class="icon">✉️</span>
+                            <input type="email" name="email" placeholder="Enter email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <div class="input-premium-wrap">
+                            <span class="icon">📞</span>
+                            <input type="tel" name="phone" placeholder="Enter phone number" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Date of Birth</label>
+                        <div class="input-premium-wrap">
+                            <span class="icon">📅</span>
+                            <input type="date" name="dob" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div class="input-premium-wrap">
+                            <span class="icon">👤</span>
+                            <select name="gender" required style="width: 100%; padding: 18px 20px 18px 55px; border-radius: 20px; border: 2px solid #f1f5f9; background: #f8fafc; font-size: 15px; -webkit-appearance: none;">
+                                <option value="" disabled selected>Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Blood Group</label>
+                        <div class="input-premium-wrap">
+                            <span class="icon">🩸</span>
+                            <select name="blood" required style="width: 100%; padding: 18px 20px 18px 55px; border-radius: 20px; border: 2px solid #f1f5f9; background: #f8fafc; font-size: 15px; -webkit-appearance: none;">
+                                <option value="" disabled selected>Select blood group</option>
+                                <option value="A+">A+</option><option value="B+">B+</option><option value="O+">O+</option><option value="AB+">AB+</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="register-section-title">Account Type</div>
+                <div class="role-tabs-premium">
+                    <label class="role-tab-premium">
+                        <input type="radio" name="role" value="patient" checked>
+                        <div class="role-content-premium">
+                            <div class="icon-box-premium">👤</div>
+                            <div class="role-label-premium">Patient</div>
+                        </div>
+                    </label>
+                    <label class="role-tab-premium">
+                        <input type="radio" name="role" value="doctor">
+                        <div class="role-content-premium">
+                            <div class="icon-box-premium">🩺</div>
+                            <div class="role-label-premium">Doctor</div>
+                        </div>
+                    </label>
+                    <label class="role-tab-premium">
+                        <input type="radio" name="role" value="nurse">
+                        <div class="role-content-premium">
+                            <div class="icon-box-premium">🏥</div>
+                            <div class="role-label-premium">Nurse</div>
+                        </div>
+                    </label>
+                    <label class="role-tab-premium">
+                        <input type="radio" name="role" value="admin">
+                        <div class="role-content-premium">
+                            <div class="icon-box-premium">🛡️</div>
+                            <div class="role-label-premium">Admin</div>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="register-section-title">Security</div>
+                <div class="register-grid">
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-premium-wrap">
+                            <span class="icon">🔒</span>
+                            <input type="password" name="password" placeholder="Create password" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <div class="input-premium-wrap">
+                            <span class="icon">🔒</span>
+                            <input type="password" name="confirm" placeholder="Confirm password" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 30px 0;">
+                    <label class="check-premium" style="justify-content: center;">
+                        <input type="checkbox" required>
+                        <span>I agree to the <a href="#" style="color:var(--primary); font-weight: 800;">Terms</a> and <a href="#" style="color:var(--primary); font-weight: 800;">Privacy Policy</a></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-login-premium" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 15px 30px rgba(16,185,129,0.25);">
+                    Create My Account <span class="arrow-icon">➔</span>
+                </button>
+
+                <div style="margin-top: 30px; text-align: center; font-size: 16px; color: #64748b; font-weight: 600;">
+                    Already have an account? <a href="#" class="backToLoginLink" style="color: #1a64f4; font-weight: 800; text-decoration: none; margin-left: 5px;">Login Now</a>
+                </div>
+            </form>
+        </div>
+    </div>
+  </div>
+
+  <!-- Main App Container -->
+  <div id="app-container" class="app-container" style="display:none;">
+    <aside class="sidebar">
+      <div class="brand">
+        <div style="background:white; color:var(--primary); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:20px;">💙</div>
+        <span>Smart Community</span>
+      </div>
+      <nav id="main-nav">
+        <!-- Dashboard Links -->
+        <a href="#" class="active" data-page="patient-dashboard" data-roles="patient">🏠 Dashboard</a>
+        <a href="#" class="active" data-page="doctor-dashboard" data-roles="doctor">🏠 Dashboard</a>
+        <a href="#" class="active" data-page="nurse-dashboard" data-roles="nurse">🏠 Dashboard</a>
+        <a href="#" class="active" data-page="admin-dashboard" data-roles="admin">🏠 Dashboard</a>
+
+        <!-- Patient -->
+        <a href="#" data-page="profile" data-roles="patient,doctor,admin">👤 My Profile</a>
+        <a href="#" data-page="appointments" data-roles="patient">📅 Appointments</a>
+
+        <!-- Doctor / Nurse -->
+        <a href="#" data-page="patient-list" data-roles="doctor,nurse">👥 Patients</a>
+        <a href="#" data-page="doctor-appointments" data-roles="doctor">📅 Appointments</a>
+        <a href="#" data-page="prescriptions" data-roles="doctor">💊 Prescriptions</a>
+
+        <!-- Shared Clinical -->
+        <a href="#" data-page="records" data-roles="patient,doctor,nurse">📋 Health Records</a>
+        <a href="#" data-page="vitals" data-roles="patient,doctor,nurse">❤️ Vital Signs</a>
+        <a href="#" data-page="lab-reports" data-roles="patient,doctor,nurse">🧪 Lab Reports</a>
+        <a href="#" data-page="vaccination" data-roles="patient,doctor,nurse">💉 Vaccination</a>
+        <a href="#" data-page="medications" data-roles="patient,nurse">💊 Medicine Reminder</a>
+
+        <!-- Nurse Specific -->
+        <a href="#" data-page="lab-samples" data-roles="nurse">🧪 Lab Collection</a>
+        <a href="#" data-page="nursing-notes" data-roles="nurse">📝 Nursing Notes</a>
+
+        <!-- Admin Specific -->
+        <a href="#" data-page="user-management" data-roles="admin">🛡️ User Management</a>
+
+        <!-- General -->
+        <a href="#" data-page="notifications" data-roles="patient,doctor,nurse,admin">🔔 Notifications</a>
+        <a href="#" data-page="emergency" data-roles="patient,doctor,nurse,admin">🚨 Emergency</a>
+        <a href="#" data-page="settings" data-roles="patient,doctor,nurse,admin">⚙️ Settings</a>
+
+        <a href="#" id="logoutBtn" class="logout" style="margin-top: 50px;">🚪 Logout</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div style="display:flex; align-items:center; gap:15px;">
+          <div class="menu-toggle" id="mobile-menu-btn">☰</div>
+          <div class="breadcrumb" style="font-weight:600; font-size:14px; color:var(--gray);">Pages / <span style="color:var(--dark);" id="current-page-title">Dashboard</span></div>
+        </div>
+        <div style="display:flex; align-items:center; gap: 20px; background:white; padding:10px 20px; border-radius:30px; box-shadow:var(--shadow);">
+          <div class="search-bar" style="position:relative;">
+            <span style="position:absolute; left:12px; top:50%; transform:translateY(-50%);">🔍</span>
+            <input type="text" placeholder="Type here..." style="border:none; background:#f4f7fe; padding:8px 12px 8px 35px; border-radius:20px; font-size:12px; outline:none;">
+          </div>
+          <div style="display:flex; gap:15px; color:var(--gray);">
+            <div id="notif-btn-header" class="icon-btn-header">🔔</div>
+            <div id="theme-toggle" class="icon-btn-header">🌙</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; border-left:1px solid #eee; padding-left:15px;">
+            <img src="https://i.pravatar.cc/100?img=12" style="width:30px; height:30px; border-radius:50%;">
+            <div style="font-size:12px; font-weight:600;" id="header-user-name">Loading...</div>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-area">
+        <!-- Page: Patient Dashboard -->
+        <div id="page-patient-dashboard" class="page-view active">
+          <div class="page-title">Welcome Back, <span class="user-display-name">User</span>!</div>
+
+          <div class="grid grid-4" style="margin-bottom: 30px;">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#f4f7fe; color:var(--primary);">📅</div>
+              <div class="stat-info">
+                <div class="label">Upcoming Appointment</div>
+                <div class="value">12</div>
+                <div style="font-size:10px; color:var(--gray);">May 15, 2026, 10:30 AM</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#fff8eb; color:var(--warning);">💊</div>
+              <div class="stat-info">
+                <div class="label">Medicine Reminder</div>
+                <div class="value">2</div>
+                <div style="font-size:10px; color:var(--gray);">Medicines due today</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#e6f7ef; color:var(--success);">❤️</div>
+              <div class="stat-info">
+                <div class="label">Health Score</div>
+                <div class="value">86%</div>
+                <div class="badge badge-success" style="font-size:9px;">Good</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#fdf2f2; color:var(--danger);">🚨</div>
+              <div class="stat-info">
+                <div class="label">Emergency</div>
+                <div class="value">0</div>
+                <div style="font-size:10px; color:var(--gray);">Active Alerts</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="panel">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="font-size:18px;">Recent Vital Signs</h3>
+                <a href="#" style="color:var(--primary); font-size:12px; font-weight:600; text-decoration:none;">View All</a>
+              </div>
+              <div class="vitals-grid">
+                <div class="vital-item">
+                  <span style="font-size:20px;">❤️</span>
+                  <div style="flex:1;"><div style="font-size:12px; color:var(--gray);">Heart Rate</div><div style="font-weight:700;">72 bpm</div></div>
+                </div>
+                <div class="vital-item">
+                  <span style="font-size:20px;">🩸</span>
+                  <div style="flex:1;"><div style="font-size:12px; color:var(--gray);">Blood Pressure</div><div style="font-weight:700;">120/80 mmHg</div></div>
+                </div>
+                <div class="vital-item">
+                  <span style="font-size:20px;">🌡️</span>
+                  <div style="flex:1;"><div style="font-size:12px; color:var(--gray);">Temperature</div><div style="font-weight:700;">98.6 °F</div></div>
+                </div>
+                <div class="vital-item">
+                  <span style="font-size:20px;">🫁</span>
+                  <div style="flex:1;"><div style="font-size:12px; color:var(--gray);">Oxygen Level</div><div style="font-weight:700;">98 %</div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="font-size:18px;">Recent Lab Reports</h3>
+                <a href="#" style="color:var(--primary); font-size:12px; font-weight:600; text-decoration:none;">View All</a>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:#f8fafc; border-radius:12px;">
+                  <div>
+                    <div style="font-weight:600; font-size:13px;">Complete Blood Count</div>
+                    <div style="font-size:11px; color:var(--gray);">May 10, 2026</div>
+                  </div>
+                  <span class="badge badge-success">Normal</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; background:#f8fafc; border-radius:12px;">
+                  <div>
+                    <div style="font-weight:600; font-size:13px;">Lipid Profile</div>
+                    <div style="font-size:11px; color:var(--gray);">Apr 28, 2026</div>
+                  </div>
+                  <span class="badge badge-success">Normal</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:30px;">
+            <h3 style="font-size:18px; margin-bottom:20px;">Quick Actions</h3>
+            <div class="quick-actions">
+              <button class="btn btn-primary btn-action" onclick="showPage('appointments')">Book Appointment</button>
+              <button class="btn btn-action" style="background:#01b574; color:white;" onclick="showPage('records')">View Health Records</button>
+              <button class="btn btn-action" style="background:#2b59ff; color:white;" onclick="showPage('medications')">Medicine Reminder</button>
+              <button class="btn btn-action" style="background:#ee5d50; color:white;" onclick="showPage('emergency')">Emergency Alert</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Doctor Dashboard -->
+        <div id="page-doctor-dashboard" class="page-view">
+          <div class="page-title">Welcome back, Dr. <span class="user-display-name">---</span></div>
+
+          <div class="grid grid-4" style="margin-bottom: 30px;">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#f4f7fe; color:var(--primary);">📅</div>
+              <div class="stat-info">
+                <div class="label">Today's Appointments</div>
+                <div class="value">18</div>
+                <div style="font-size:10px; color:var(--gray);">Total</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#e6f7ef; color:var(--success);">👥</div>
+              <div class="stat-info">
+                <div class="label">Patients Seen</div>
+                <div class="value">12</div>
+                <div style="font-size:10px; color:var(--gray);">Today</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#fdf2f2; color:var(--danger);">🚨</div>
+              <div class="stat-info">
+                <div class="label">Emergency Cases</div>
+                <div class="value">2</div>
+                <div class="badge badge-danger" style="font-size:9px;">Active</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#f5f3ff; color:#7c3aed;">🧪</div>
+              <div class="stat-info">
+                <div class="label">Lab Reports Pending</div>
+                <div class="value">8</div>
+                <div style="font-size:10px; color:var(--gray);">To Review</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="panel" style="padding:0; overflow:hidden;">
+              <div style="padding:25px; display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="font-size:18px;">Today's Appointments</h3>
+                <a href="#" style="color:var(--primary); font-size:12px; font-weight:600; text-decoration:none;">View All</a>
+              </div>
+              <table class="data-table">
+                <thead>
+                  <tr><th>Time</th><th>Patient</th><th>Reason</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>10:00 AM</td><td>Michael Brown</td><td>Regular Checkup</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+                  <tr><td>10:30 AM</td><td>Emily Davis</td><td>Follow-up</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+                  <tr><td>11:00 AM</td><td>David Wilson</td><td>Consultation</td><td><span class="badge badge-success">Confirmed</span></td></tr>
+                  <tr><td>11:30 AM</td><td>Sophia Taylor</td><td>Regular Checkup</td><td><span class="badge badge-warning">Pending</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="panel" style="padding:0; overflow:hidden;">
+              <div style="padding:25px; display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="font-size:18px;">Recent Patients</h3>
+                <a href="#" style="color:var(--primary); font-size:12px; font-weight:600; text-decoration:none;">View All</a>
+              </div>
+              <div style="padding: 0 25px 25px;">
+                <div style="display:flex; flex-direction:column; gap:15px;">
+                  <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f8fafc; border-radius:15px;">
+                    <img src="https://i.pravatar.cc/100?img=1" style="width:40px; height:40px; border-radius:50%;">
+                    <div style="flex:1;"><div style="font-weight:600; font-size:13px;">Michael Brown</div><div style="font-size:11px; color:var(--gray);">ID: PT001 • Age: 45</div></div>
+                    <button class="btn" style="padding:6px 12px; font-size:10px;">View</button>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f8fafc; border-radius:15px;">
+                    <img src="https://i.pravatar.cc/100?img=2" style="width:40px; height:40px; border-radius:50%;">
+                    <div style="flex:1;"><div style="font-weight:600; font-size:13px;">Emily Davis</div><div style="font-size:11px; color:var(--gray);">ID: PT002 • Age: 32</div></div>
+                    <button class="btn" style="padding:6px 12px; font-size:10px;">View</button>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f8fafc; border-radius:15px;">
+                    <img src="https://i.pravatar.cc/100?img=3" style="width:40px; height:40px; border-radius:50%;">
+                    <div style="flex:1;"><div style="font-weight:600; font-size:13px;">David Wilson</div><div style="font-size:11px; color:var(--gray);">ID: PT003 • Age: 58</div></div>
+                    <button class="btn" style="padding:6px 12px; font-size:10px;">View</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:30px;">
+            <h3 style="font-size:18px; margin-bottom:20px;">Quick Actions</h3>
+            <div class="quick-actions">
+              <button class="btn btn-primary btn-action">Add Prescription</button>
+              <button class="btn btn-action" style="background:#01b574; color:white;">Request Lab Test</button>
+              <button class="btn btn-action" style="background:#2b59ff; color:white;">Video Consultation</button>
+              <button class="btn btn-action" style="background:#1b2559; color:white;">View Patients</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Nurse Dashboard -->
+        <div id="page-nurse-dashboard" class="page-view">
+          <div class="page-title">Welcome back, <span class="user-display-name">---</span></div>
+
+          <div class="grid grid-4" style="margin-bottom: 30px;">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#f4f7fe; color:var(--primary);">👥</div>
+              <div class="stat-info">
+                <div class="label">Patients Today</div>
+                <div class="value">24</div>
+                <div style="font-size:10px; color:var(--gray);">To Attend</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#fff8eb; color:var(--warning);">💊</div>
+              <div class="stat-info">
+                <div class="label">Medicines Pending</div>
+                <div class="value">7</div>
+                <div style="font-size:10px; color:var(--gray);">Next 2 Hours</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#e6f7ef; color:var(--success);">📅</div>
+              <div class="stat-info">
+                <div class="label">Tasks Today</div>
+                <div class="value">12</div>
+                <div style="font-size:10px; color:var(--gray);">In Progress</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#fdf2f2; color:var(--danger);">🚨</div>
+              <div class="stat-info">
+                <div class="label">Emergency Alerts</div>
+                <div class="value">1</div>
+                <div class="badge badge-danger" style="font-size:9px;">Active</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="panel">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="font-size:18px;">Today's Tasks</h3>
+                <a href="#" style="color:var(--primary); font-size:12px; font-weight:600; text-decoration:none;">View All</a>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:15px;">
+                <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f8fafc; border-radius:12px;">
+                  <input type="checkbox" checked>
+                  <div style="flex:1;"><div style="font-weight:600; font-size:13px;">Vital Signs Monitoring</div><div style="font-size:11px; color:var(--gray);">Ward A - 10/24 Patients</div></div>
+                  <div style="font-size:11px; font-weight:700;">10/24</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f8fafc; border-radius:12px;">
+                  <input type="checkbox">
+                  <div style="flex:1;"><div style="font-weight:600; font-size:13px;">Medicine Administration</div><div style="font-size:11px; color:var(--gray);">Ward B - 5/12 Patients</div></div>
+                  <div style="font-size:11px; font-weight:700;">5/12</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f8fafc; border-radius:12px;">
+                  <input type="checkbox">
+                  <div style="flex:1;"><div style="font-weight:600; font-size:13px;">Lab Sample Collection</div><div style="font-size:11px; color:var(--gray);">Sector 4 - 3/8 Samples</div></div>
+                  <div style="font-size:11px; font-weight:700;">3/8</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="font-size:18px;">Recent Patients</h3>
+                <a href="#" style="color:var(--primary); font-size:12px; font-weight:600; text-decoration:none;">View All</a>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f8fafc; border-radius:15px;">
+                  <img src="https://i.pravatar.cc/100?img=4" style="width:40px; height:40px; border-radius:50%;">
+                  <div style="flex:1;"><div style="font-weight:600; font-size:13px;">James Anderson</div><div style="font-size:11px; color:var(--gray);">Room 101 • 10:30 AM</div></div>
+                  <button class="btn" style="padding:6px 12px; font-size:10px;">Vitals</button>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f8fafc; border-radius:15px;">
+                  <img src="https://i.pravatar.cc/100?img=5" style="width:40px; height:40px; border-radius:50%;">
+                  <div style="flex:1;"><div style="font-weight:600; font-size:13px;">Linda Martinez</div><div style="font-size:11px; color:var(--gray);">Room 105 • 11:00 AM</div></div>
+                  <button class="btn" style="padding:6px 12px; font-size:10px;">Meds</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:30px;">
+            <h3 style="font-size:18px; margin-bottom:20px;">Quick Actions</h3>
+            <div class="quick-actions">
+              <button class="btn btn-primary btn-action">Add Vital Signs</button>
+              <button class="btn btn-action" style="background:#01b574; color:white;">Record Medicine</button>
+              <button class="btn btn-action" style="background:#2b59ff; color:white;">Collect Sample</button>
+              <button class="btn btn-action" style="background:#1b2559; color:white;">Add Note</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Admin Dashboard -->
+        <div id="page-admin-dashboard" class="page-view">
+          <div class="page-title">System Administrator: <span class="user-display-name">---</span></div>
+
+          <div class="grid grid-4" style="margin-bottom: 30px;">
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#f4f7fe; color:var(--primary);">👥</div>
+              <div class="stat-info">
+                <div class="label">Total Patients</div>
+                <div class="value">1,248</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#e6f7ef; color:var(--success);">👨‍⚕️</div>
+              <div class="stat-info">
+                <div class="label">Total Doctors</div>
+                <div class="value">56</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#f5f3ff; color:#7c3aed;">👩‍⚕️</div>
+              <div class="stat-info">
+                <div class="label">Total Nurses</div>
+                <div class="value">89</div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon" style="background:#fff8eb; color:var(--warning);">📅</div>
+              <div class="stat-info">
+                <div class="label">Appointments Today</div>
+                <div class="value">156</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="panel">
+              <h3 style="font-size:18px; margin-bottom:20px;">Patient Registration</h3>
+              <div style="height:250px;"><canvas id="patientRegChart"></canvas></div>
+            </div>
+            <div class="panel">
+              <h3 style="font-size:18px; margin-bottom:20px;">Appointments Overview</h3>
+              <div style="height:250px; display:flex; align-items:center; justify-content:center;">
+                <canvas id="appointmentsDonutChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-2" style="margin-top:24px;">
+            <div class="panel">
+              <h3 style="font-size:18px; margin-bottom:20px;">Recent Activities</h3>
+              <div style="display:flex; flex-direction:column; gap:15px;">
+                <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f8fafc; border-radius:12px;">
+                  <div style="width:10px; height:10px; border-radius:50%; background:var(--primary);"></div>
+                  <div style="flex:1;"><div style="font-weight:600; font-size:13px;">New patient registered: John Smith</div><div style="font-size:11px; color:var(--gray);">2 mins ago</div></div>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f8fafc; border-radius:12px;">
+                  <div style="width:10px; height:10px; border-radius:50%; background:var(--success);"></div>
+                  <div style="flex:1;"><div style="font-weight:600; font-size:13px;">Lab report uploaded: PT002</div><div style="font-size:11px; color:var(--gray);">10 mins ago</div></div>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#f8fafc; border-radius:12px;">
+                  <div style="width:10px; height:10px; border-radius:50%; background:var(--danger);"></div>
+                  <div style="flex:1;"><div style="font-weight:600; font-size:13px;">Emergency alert resolved: PT001</div><div style="font-size:11px; color:var(--gray);">15 mins ago</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <h3 style="font-size:18px; margin-bottom:20px;">System Overview</h3>
+              <div style="display:flex; flex-direction:column; gap:20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="font-size:13px; font-weight:600;">Database Status</div>
+                  <span class="badge badge-success">Online</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="font-size:13px; font-weight:600;">Backup Status</div>
+                  <div style="font-size:12px; color:var(--gray);">Up to date</div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <div style="font-size:13px; font-weight:600;">System Uptime</div>
+                  <div style="font-size:12px; color:var(--success); font-weight:700;">99.9%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Vaccination -->
+        <div id="page-vaccination" class="page-view">
+          <div class="hr-header">
+            <div>
+              <h2 class="title">Vaccination</h2>
+              <p style="font-size: 13px; color: var(--gray);">Dashboard > Vaccination</p>
+            </div>
+            <div class="hr-action-btns">
+              <button class="btn btn-primary" id="addVaxBtn" style="padding: 8px 16px;">+ Add Vaccine</button>
+              <button class="btn btn-ghost" id="downloadFullCertBtn" style="padding: 8px 16px; border: 1px solid #2b59ff; color: #2b59ff; background: white;">📥 Download Certificate</button>
+            </div>
+          </div>
+
+          <!-- Patient Header Card -->
+          <div class="panel patient-info-card" style="padding: 16px 24px; margin-bottom: 24px;">
+            <img src="https://i.pravatar.cc/150?img=12" class="patient-photo" style="width: 80px; height: 80px;">
+            <div class="patient-details-grid" style="gap: 10px 40px;">
+              <div style="grid-column: span 3; display:flex; align-items:center; gap:10px;">
+                <h3 id="vax-patient-name" style="font-size: 18px;">Patient Name</h3> <span class="patient-id-badge" style="background: #e0f2fe; color: #2b59ff; font-weight: 600;" id="vax-patient-id">Patient ID: ---</span>
+              </div>
+              <div class="detail-item"><div class="label">Age</div><div class="value" style="font-size: 14px;" id="vax-patient-age">-- Years</div></div>
+              <div class="detail-item"><div class="label">Gender</div><div class="value" style="font-size: 14px;" id="vax-patient-gender">--</div></div>
+              <div class="detail-item"><div class="label">Blood Group</div><div class="value" style="font-size: 14px;" id="vax-patient-blood">--</div></div>
+              <div class="detail-item"><div class="label">Phone</div><div class="value" style="font-size: 14px;" id="vax-patient-phone">+91 ---</div></div>
+              <div class="detail-item" style="grid-column: span 2;"><div class="label">Email</div><div class="value" style="font-size: 14px;" id="vax-patient-email">---@---.com</div></div>
+            </div>
+          </div>
+
+          <div class="vax-summary-grid">
+            <div class="summary-card">
+              <div class="summary-icon" style="background: #ecfdf5; color: #10b981;">🛡️</div>
+              <div class="summary-details">
+                <h4>Total Vaccines</h4>
+                <div class="value">7</div>
+                <div class="sub">All Time</div>
+              </div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-icon" style="background: #eff6ff; color: #2b59ff;">✅</div>
+              <div class="summary-details">
+                <h4>Completed</h4>
+                <div class="value">5</div>
+                <div class="sub">71.4%</div>
+              </div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-icon" style="background: #fffbeb; color: #f59e0b;">🕒</div>
+              <div class="summary-details">
+                <h4>Due Soon</h4>
+                <div class="value">1</div>
+                <div class="sub">14.3%</div>
+              </div>
+            </div>
+            <div class="summary-card">
+              <div class="summary-icon" style="background: #fef2f2; color: #ef4444;">📅</div>
+              <div class="summary-details">
+                <h4>Overdue</h4>
+                <div class="value">1</div>
+                <div class="sub">14.3%</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 340px; gap: 24px;">
+            <div class="panel" style="padding: 24px 0;">
+              <div class="vax-table-header" style="padding: 0 24px;">
+                <h3 class="title">Vaccination History</h3>
+              </div>
+              <table class="vax-table">
+                <thead>
+                  <tr>
+                    <th style="padding-left: 24px;">Vaccine</th>
+                    <th>Dose</th>
+                    <th>Date Given</th>
+                    <th>Next Due Date</th>
+                    <th>Status</th>
+                    <th style="padding-right: 24px;">Certificate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding-left: 24px;">
+                      <div class="vax-info">
+                        <div class="vax-icon-small" style="background: #fdf2ff; color: #a855f7;">👾</div>
+                        <div><div style="font-weight: 600;">COVID-19</div><div style="font-size: 11px; color: var(--gray);">Covishield</div></div>
+                      </div>
+                    </td>
+                    <td>2 Doses</td>
+                    <td>15 Jan 2021</td>
+                    <td>-</td>
+                    <td><span class="badge badge-success">Completed</span></td>
+                    <td style="padding-right: 24px;"><button class="btn btn-ghost" style="padding: 6px; min-width: 32px; border: 1px solid #e2e8f0;"><span style="color: #2b59ff;">📥</span></button></td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 24px;">
+                      <div class="vax-info">
+                        <div class="vax-icon-small" style="background: #eff6ff; color: #2b59ff;">🛡️</div>
+                        <div><div style="font-weight: 600;">Hepatitis B</div></div>
+                      </div>
+                    </td>
+                    <td>3 Doses</td>
+                    <td>10 Aug 2021</td>
+                    <td>-</td>
+                    <td><span class="badge badge-success">Completed</span></td>
+                    <td style="padding-right: 24px;"><button class="btn btn-ghost" style="padding: 6px; min-width: 32px; border: 1px solid #e2e8f0;"><span style="color: #2b59ff;">📥</span></button></td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 24px;">
+                      <div class="vax-info">
+                        <div class="vax-icon-small" style="background: #fff1f2; color: #f43f5e;">🩸</div>
+                        <div><div style="font-weight: 600;">Tetanus (Td)</div><div style="font-size: 11px; color: var(--gray);">Booster</div></div>
+                      </div>
+                    </td>
+                    <td>1 Dose</td>
+                    <td>12 Feb 2023</td>
+                    <td>12 Feb 2033</td>
+                    <td><span class="badge badge-success">Completed</span></td>
+                    <td style="padding-right: 24px;"><button class="btn btn-ghost" style="padding: 6px; min-width: 32px; border: 1px solid #e2e8f0;"><span style="color: #2b59ff;">📥</span></button></td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 24px;">
+                      <div class="vax-info">
+                        <div class="vax-icon-small" style="background: #fffbeb; color: #f59e0b;">☀️</div>
+                        <div><div style="font-weight: 600;">Influenza</div><div style="font-size: 11px; color: var(--gray);">Flu Vaccine</div></div>
+                      </div>
+                    </td>
+                    <td>1 Dose</td>
+                    <td>10 Oct 2023</td>
+                    <td>10 Oct 2024</td>
+                    <td><span class="badge badge-warning" style="background: #fffbeb; color: #f59e0b;">Due Soon</span></td>
+                    <td style="padding-right: 24px; text-align: center;">-</td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 24px;">
+                      <div class="vax-info">
+                        <div class="vax-icon-small" style="background: #ecfeff; color: #06b6d4;">⚙️</div>
+                        <div><div style="font-weight: 600;">Typhoid</div></div>
+                      </div>
+                    </td>
+                    <td>1 Dose</td>
+                    <td>05 Jan 2024</td>
+                    <td>05 Jan 2025</td>
+                    <td><span class="badge badge-warning" style="background: #fffbeb; color: #f59e0b;">Due Soon</span></td>
+                    <td style="padding-right: 24px; text-align: center;">-</td>
+                  </tr>
+                  <tr>
+                    <td style="padding-left: 24px;">
+                      <div class="vax-info">
+                        <div class="vax-icon-small" style="background: #fdf2f2; color: #ef4444;">💉</div>
+                        <div><div style="font-weight: 600;">MMR</div><div style="font-size: 11px; color: var(--gray);">Measles, Mumps, Rubella</div></div>
+                      </div>
+                    </td>
+                    <td>1 Dose</td>
+                    <td>-</td>
+                    <td>15 Jul 2024</td>
+                    <td><span class="badge badge-danger">Overdue</span></td>
+                    <td style="padding-right: 24px; text-align: center;">-</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style="padding: 20px 24px; text-align: center;">
+                 <button class="btn btn-ghost" style="width: 100%; justify-content: center; font-size: 13px;">View All Vaccination History</button>
+              </div>
+            </div>
+
+            <div class="right-panel-vax" style="display: flex; flex-direction: column; gap: 24px;">
+              <!-- Upcoming Vaccines -->
+              <div class="panel" style="padding: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                  <h3 class="title" style="font-size: 15px;">Upcoming Vaccines</h3>
+                  <button class="btn btn-ghost" style="font-size: 11px; padding: 4px 8px; border: 1px solid #e2e8f0;">View Calendar</button>
+                </div>
+                <div class="upcoming-vax-item" style="border-left: 4px solid #ef4444;">
+                  <div class="upcoming-header">
+                    <div>
+                      <div class="upcoming-title">MMR Vaccine</div>
+                      <div class="upcoming-sub">Measles, Mumps, Rubella</div>
+                    </div>
+                    <span class="badge badge-danger" style="padding: 2px 8px; font-size: 10px;">Overdue</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                    <div><div class="upcoming-sub">Due Date</div><div style="font-size: 12px; font-weight: 600;">15 Jul 2024</div></div>
+                    <div style="text-align: right;"><div class="upcoming-sub">Days Overdue</div><div style="font-size: 12px; font-weight: 600; color: #ef4444;">🗓️ 3 Days</div></div>
+                  </div>
+                </div>
+                <div class="upcoming-vax-item" style="border-left: 4px solid #2b59ff;">
+                  <div class="upcoming-header">
+                    <div>
+                      <div class="upcoming-title">HPV Vaccine - Dose 1</div>
+                      <div class="upcoming-sub">Human Papillomavirus</div>
+                    </div>
+                    <span class="badge" style="background: #eff6ff; color: #2b59ff; padding: 2px 8px; font-size: 10px;">Upcoming</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                    <div><div class="upcoming-sub">Due Date</div><div style="font-size: 12px; font-weight: 600;">20 Aug 2024</div></div>
+                    <div style="text-align: right;"><div class="upcoming-sub">Days Left</div><div style="font-size: 12px; font-weight: 600; color: #2b59ff;">🗓️ 35 Days</div></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Protection Tips -->
+              <div class="panel" style="padding: 20px;">
+                <h3 class="title" style="font-size: 15px; display: flex; align-items: center; gap: 8px;">🛡️ Protection Tips</h3>
+                <ul class="protection-tips-list">
+                  <li class="protection-tip"><i>✔️</i> Keep your vaccination record up to date.</li>
+                  <li class="protection-tip"><i>✔️</i> Follow the due dates to stay protected.</li>
+                  <li class="protection-tip"><i>✔️</i> Carry your vaccination certificate when traveling.</li>
+                  <li class="protection-tip"><i>✔️</i> Consult your doctor for any vaccine side effects.</li>
+                </ul>
+              </div>
+
+              <!-- Vaccination Certificate -->
+              <div class="panel" style="padding: 20px;">
+                <h3 class="title" style="font-size: 15px;">Vaccination Certificate</h3>
+                <div class="cert-card">
+                  <div class="cert-thumb">📜</div>
+                  <div class="cert-info">
+                    <h5>Certificate ID</h5>
+                    <div class="id">VC-PT001-2024</div>
+                    <h5>Issued On</h5>
+                    <div class="date">12 Feb 2023</div>
+                  </div>
+                </div>
+                <button class="btn btn-primary" id="downloadFullVaxCert" style="width: 100%; justify-content: center; margin-top: 20px; font-size: 13px;">📥 Download Full Certificate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Health Records -->
+        <div id="page-records" class="page-view">
+          <div class="hr-header">
+            <div>
+              <h2 class="title">Health Record</h2>
+              <p style="font-size: 13px; color: var(--gray);">Dashboard > Health Record</p>
+            </div>
+            <div class="hr-action-btns">
+              <button class="btn btn-primary" id="addRecordBtn">+ Add Record</button>
+              <button class="btn btn-ghost" id="downloadRecordPdfBtn">📥 Download PDF</button>
+              <button class="btn btn-ghost">🖨️ Print</button>
+            </div>
+          </div>
+
+          <div class="panel patient-info-card">
+            <img src="https://i.pravatar.cc/150?img=12" class="patient-photo">
+            <div class="patient-details-grid">
+              <div style="grid-column: span 3; display:flex; align-items:center; gap:10px;">
+                <h3 id="records-patient-name">Patient Name</h3> <span class="patient-id-badge" id="records-patient-id">Patient ID: ---</span>
+              </div>
+              <div class="detail-item"><div class="label">Age</div><div class="value" id="records-patient-age">-- Years</div></div>
+              <div class="detail-item"><div class="label">Gender</div><div class="value" id="records-patient-gender">--</div></div>
+              <div class="detail-item"><div class="label">Blood Group</div><div class="value" id="records-patient-blood">--</div></div>
+              <div class="detail-item"><div class="label">Phone</div><div class="value" id="records-patient-phone">---</div></div>
+              <div class="detail-item" style="grid-column: span 2;"><div class="label">Email</div><div class="value" id="records-patient-email">---@---.com</div></div>
+            </div>
+          </div>
+
+          <div class="grid grid-3">
+            <div class="panel">
+              <div class="panel-title-with-icon">❤️ Vital Signs</div>
+              <div class="vitals-summary-grid">
+                <div class="vital-summary-item"><div class="v-label">Height</div><div class="v-value">170 cm</div></div>
+                <div class="vital-summary-item"><div class="v-label">Weight</div><div class="v-value">65 kg</div></div>
+                <div class="vital-summary-item"><div class="v-label">BMI</div><div class="v-value">22.5</div></div>
+              </div>
+              <a href="#" class="view-link" onclick="showPage('vitals')">View History</a>
+            </div>
+            <div class="panel">
+              <div class="panel-title-with-icon">📋 Medical History</div>
+              <ul class="history-list">
+                <li class="checked">Diabetes</li>
+                <li class="checked">Hypertension</li>
+                <li class="checked">Asthma</li>
+              </ul>
+            </div>
+            <div class="panel">
+              <div class="panel-title-with-icon">💊 Current Medicines</div>
+              <div style="font-size: 13px; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; justify-content:space-between;"><span>Metformin</span> <b>500mg</b></div>
+                <div style="display:flex; justify-content:space-between;"><span>Atorvastatin</span> <b>10mg</b></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-3">
+            <div class="panel">
+              <div class="panel-title-with-icon">💉 Vaccination</div>
+              <div style="font-size: 13px; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; justify-content:space-between;"><span>COVID-19</span> <b style="color:var(--success);">Completed</b></div>
+                <div style="display:flex; justify-content:space-between;"><span>Influenza</span> <b style="color:var(--warning);">Due</b></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-title-with-icon">📄 Lab Reports</div>
+              <div style="font-size: 13px; display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; justify-content:space-between;"><span>Blood Test</span> <b>May 12</b></div>
+                <div style="display:flex; justify-content:space-between;"><span>Lipid Profile</span> <b>May 10</b></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-title-with-icon">📝 Doctor Notes</div>
+              <p style="font-size:12px; color:var(--gray);">Stable condition. Continue existing medications and maintain diet.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Vital Signs -->
+        <div id="page-vitals" class="page-view">
+          <div class="hr-header">
+            <div>
+              <h2 class="title">❤️ Vital Signs Monitoring</h2>
+              <p style="font-size: 13px; color: var(--gray);">Real-time tracking of patient physiological data</p>
+            </div>
+            <div style="display:flex; align-items:center; gap:20px; background:white; padding:10px 20px; border-radius:12px; box-shadow:var(--shadow);">
+              <div style="font-size:11px;"><span style="color:var(--success)">●</span> Device: <b>Connected</b></div>
+              <div style="font-size:11px;">🔋 Battery: <b>85%</b></div>
+              <div style="font-size:11px; color:var(--gray)">Last Sync: <b>Just Now</b></div>
+            </div>
+          </div>
+
+          <!-- Patient Header Card -->
+          <div class="panel patient-info-card" style="padding: 16px 24px; margin-bottom: 24px;">
+            <img src="https://i.pravatar.cc/150?img=12" class="patient-photo" style="width: 80px; height: 80px;">
+            <div class="patient-details-grid" style="gap: 10px 40px;">
+              <div style="grid-column: span 3; display:flex; align-items:center; gap:10px;">
+                <h3 id="vitals-patient-name" style="font-size: 18px;">Patient Name</h3> <span class="patient-id-badge" id="vitals-patient-id">Patient ID: ---</span>
+              </div>
+              <div class="detail-item"><div class="label">Age</div><div class="value" id="vitals-patient-age">-- Years</div></div>
+              <div class="detail-item"><div class="label">Gender</div><div class="value" id="vitals-patient-gender">--</div></div>
+              <div class="detail-item"><div class="label">Blood Group</div><div class="value" id="vitals-patient-blood">--</div></div>
+            </div>
+          </div>
+
+          <div class="grid grid-4" style="margin-bottom: 24px;">
+            <div class="vital-card">
+              <div class="vital-icon">❤️</div>
+              <div class="stat-label">Heart Rate</div>
+              <div style="font-size:24px; font-weight:700;">72 <span style="font-size:12px; font-weight:400; color:var(--gray)">bpm</span></div>
+              <div class="badge badge-success">Normal</div>
+            </div>
+            <div class="vital-card">
+              <div class="vital-icon">🩸</div>
+              <div class="stat-label">Blood Pressure</div>
+              <div style="font-size:22px; font-weight:700;">120/80 <span style="font-size:12px; font-weight:400; color:var(--gray)">mmHg</span></div>
+              <div class="badge badge-success">Normal</div>
+            </div>
+            <div class="vital-card">
+              <div class="vital-icon">🌡️</div>
+              <div class="stat-label">Temperature</div>
+              <div style="font-size:24px; font-weight:700;">98.6 <span style="font-size:12px; font-weight:400; color:var(--gray)">°F</span></div>
+              <div class="badge badge-success">Normal</div>
+            </div>
+            <div class="vital-card">
+              <div class="vital-icon">🫁</div>
+              <div class="stat-label">Oxygen (SpO₂)</div>
+              <div style="font-size:24px; font-weight:700;">98 <span style="font-size:12px; font-weight:400; color:var(--gray)">%</span></div>
+              <div class="badge badge-success">Excellent</div>
+            </div>
+            <div class="vital-card">
+              <div class="vital-icon">💨</div>
+              <div class="stat-label">Respiration</div>
+              <div style="font-size:24px; font-weight:700;">16 <span style="font-size:12px; font-weight:400; color:var(--gray)">bpm</span></div>
+              <div class="badge badge-success">Normal</div>
+            </div>
+            <div class="vital-card">
+              <div class="vital-icon">⚖️</div>
+              <div class="stat-label">BMI Index</div>
+              <div style="font-size:24px; font-weight:700;">22.4</div>
+              <div class="badge badge-success">Healthy</div>
+            </div>
+            <div class="vital-card" style="grid-column: span 2;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                   <div class="vital-icon">🩺</div>
+                   <div class="stat-label">Blood Glucose</div>
+                   <div style="font-size:24px; font-weight:700;">95 <span style="font-size:12px; font-weight:400; color:var(--gray)">mg/dL</span></div>
+                </div>
+                <div class="badge badge-success">Normal</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 340px; gap: 24px;">
+            <div class="panel">
+              <h3 class="title">Weekly Health Summary</h3>
+              <div style="height: 300px;">
+                <canvas id="vitalsTrendChart"></canvas>
+              </div>
+            </div>
+            <div class="right-col-vitals" style="display:flex; flex-direction:column; gap:24px;">
+               <div class="panel" style="background:#fff1f2; border:1px solid #fecdd3;">
+                  <h3 class="title" style="font-size:15px; color:#991b1b;">🔔 Health Alerts</h3>
+                  <div style="margin-top:15px; display:flex; flex-direction:column; gap:10px;">
+                     <div style="font-size:12px; padding:10px; background:white; border-radius:8px; border-left:4px solid var(--warning);">High Blood Pressure alert detected yesterday.</div>
+                     <div style="font-size:12px; padding:10px; background:white; border-radius:8px; border-left:4px solid var(--success);">Oxygen levels have returned to normal range.</div>
+                  </div>
+               </div>
+               <div class="panel" style="background:#f0fdf4;">
+                  <h3 class="title" style="font-size:15px; color:#166534;">💡 Health Tips</h3>
+                  <ul style="font-size:12px; margin-top:15px; list-style:none; display:flex; flex-direction:column; gap:8px;">
+                     <li>💧 Drink at least 3L of water today.</li>
+                     <li>🏃‍♂️ 30 min morning walk recommended.</li>
+                     <li>💊 Take BP medication after dinner.</li>
+                     <li>😴 Target 8 hours of sleep tonight.</li>
+                  </ul>
+               </div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:24px;">
+            <h3 class="title" style="margin-bottom: 20px;">Vital History Log</h3>
+            <table class="data-table">
+              <thead><tr><th>Date</th><th>Heart Rate</th><th>Blood Pressure</th><th>SpO₂</th><th>Temp</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>May 16, 2024</td><td>72 bpm</td><td>120/80</td><td>98%</td><td>98.6°F</td><td><span class="badge badge-success">Normal</span></td></tr>
+                <tr><td>May 15, 2024</td><td>75 bpm</td><td>122/82</td><td>97%</td><td>98.8°F</td><td><span class="badge badge-success">Normal</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="margin-top:24px; display:flex; gap:15px; justify-content:flex-end;">
+             <button class="btn btn-ghost" id="refreshVitals">🔄 Refresh Data</button>
+             <button class="btn btn-ghost" id="downloadVitals">📄 Download Report</button>
+             <button class="btn btn-primary" id="shareVitals">📤 Share with Doctor</button>
+             <button class="btn btn-danger" onclick="showPage('emergency')">⚠️ Emergency Alert</button>
+          </div>
+        </div>
+
+        <!-- Page: Appointments -->
+        <div id="page-appointments" class="page-view">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px;">
+            <h2 class="page-title" style="margin-bottom:0;">Appointments</h2>
+            <button class="btn btn-primary" style="width:auto; padding:10px 20px;">+ Book New Appointment</button>
+          </div>
+
+          <!-- Stats Row -->
+          <div class="grid grid-4" style="margin-bottom: 30px;">
+            <div class="stat-card-mini" style="border-left: 4px solid var(--primary);">
+              <div class="stat-icon-mini" style="background:rgba(43, 89, 255, 0.1); color:var(--primary);">📅</div>
+              <div class="stat-info-mini">
+                <div class="stat-val-mini">2</div>
+                <div class="stat-label-mini">Upcoming</div>
+              </div>
+            </div>
+            <div class="stat-card-mini" style="border-left: 4px solid var(--success);">
+              <div class="stat-icon-mini" style="background:rgba(1, 181, 116, 0.1); color:var(--success);">✅</div>
+              <div class="stat-info-mini">
+                <div class="stat-val-mini">8</div>
+                <div class="stat-label-mini">Completed</div>
+              </div>
+            </div>
+            <div class="stat-card-mini" style="border-left: 4px solid var(--warning);">
+              <div class="stat-icon-mini" style="background:rgba(255, 181, 71, 0.1); color:var(--warning);">🕒</div>
+              <div class="stat-info-mini">
+                <div class="stat-val-mini">1</div>
+                <div class="stat-label-mini">Pending</div>
+              </div>
+            </div>
+            <div class="stat-card-mini" style="border-left: 4px solid var(--danger);">
+              <div class="stat-icon-mini" style="background:rgba(238, 93, 80, 0.1); color:var(--danger);">❌</div>
+              <div class="stat-info-mini">
+                <div class="stat-val-mini">1</div>
+                <div class="stat-label-mini">Cancelled</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabs and Filters -->
+          <div class="panel" style="padding:0; background:transparent; box-shadow:none; margin-bottom:0;">
+            <div class="appt-tabs">
+              <div class="appt-tab active">Upcoming Appointments</div>
+              <div class="appt-tab">Completed</div>
+              <div class="appt-tab">Cancelled</div>
+              <div class="appt-tab">All Appointments</div>
+            </div>
+
+            <div class="appt-filters">
+              <div style="display:flex; gap:15px; flex:1;">
+                <select class="form-control-sm"><option>All Doctors</option></select>
+                <select class="form-control-sm"><option>All Departments</option></select>
+                <input type="text" class="form-control-sm" value="May 15, 2026 - May 31, 2026" style="width:200px;">
+              </div>
+              <div style="display:flex; gap:10px;">
+                <div class="search-bar-sm">
+                  <span>🔍</span>
+                  <input type="text" placeholder="Search appointments...">
+                </div>
+                <button class="btn-icon-filter">FILTER</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 380px; gap: 24px;">
+            <!-- Left Column: Appointments List -->
+            <div class="appt-list-container">
+              <!-- Dynamically populated from database -->
+              <div style="padding: 40px; text-align: center; color: var(--gray);">
+                <div class="spinner" style="margin: 0 auto 20px;"></div>
+                <p>Loading your appointments...</p>
+              </div>
+            </div>
+
+            <!-- Right Column: Booking Widget -->
+            <div class="appt-booking-sidebar">
+              <div class="panel calendar-panel">
+                <div style="margin-bottom: 20px;">
+                  <label class="form-label" style="font-size: 12px;">Choose Doctor</label>
+                  <select class="form-control-sm" style="width: 100%;" id="book-appt-doctor">
+                    <option value="Dr. Sarah Wilson">Dr. Sarah Wilson (Cardiologist)</option>
+                    <option value="Dr. Michael Brown">Dr. Michael Brown (General Physician)</option>
+                    <option value="Dr. Emily Davis">Dr. Emily Davis (Dermatologist)</option>
+                    <option value="Dr. David Wilson">Dr. David Wilson (Orthopedic)</option>
+                  </select>
+                </div>
+
+                <div class="calendar-header">
+                  <span>‹</span>
+                  <b>May 2026</b>
+                  <span>›</span>
+                  <button class="btn-today">Today</button>
+                </div>
+                <div class="calendar-grid">
+                  <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                  <div class="day-muted">26</div><div class="day-muted">27</div><div class="day-muted">28</div><div class="day-muted">29</div><div class="day-muted">30</div><div>1</div><div>2</div>
+                  <div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div>
+                  <div>10</div><div>11</div><div>12</div><div>13</div><div>14</div><div class="day-active">15</div><div>16</div>
+                  <div>17</div><div>18</div><div>19</div><div>20</div><div>21</div><div>22</div><div>23</div>
+                  <div>24</div><div>25</div><div>26</div><div>27</div><div>28</div><div>29</div><div>30</div>
+                  <div>31</div><div class="day-muted">1</div><div class="day-muted">2</div><div class="day-muted">3</div><div class="day-muted">4</div><div class="day-muted">5</div><div class="day-muted">6</div>
+                </div>
+
+                <div class="time-slots-header">Available Time Slots</div>
+                <div class="time-slots-grid">
+                  <button class="time-slot-v2">09:00 AM</button>
+                  <button class="time-slot-v2 selected">09:30 AM</button>
+                  <button class="time-slot-v2">10:00 AM</button>
+                  <button class="time-slot-v2">10:30 AM</button>
+                  <button class="time-slot-v2">11:00 AM</button>
+                  <button class="time-slot-v2">11:30 AM</button>
+                  <button class="time-slot-v2">02:00 PM</button>
+                  <button class="time-slot-v2">02:30 PM</button>
+                  <button class="time-slot-v2">03:00 PM</button>
+                  <button class="time-slot-v2">03:30 PM</button>
+                  <button class="time-slot-v2">04:00 PM</button>
+                  <button class="time-slot-v2">04:30 PM</button>
+                </div>
+
+                <button class="btn btn-primary" id="confirmBookingBtn" style="margin-top:20px; font-size:16px;">Book Appointment</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Features Info -->
+          <div class="appt-features-footer">
+            <div class="feature-item-v2">
+              <div class="feat-icon-v2" style="background:#e6f7ef; color:var(--success);">📅</div>
+              <div>
+                <div class="feat-title-v2">Easy Booking</div>
+                <div class="feat-desc-v2">Book appointments with just a few clicks</div>
+              </div>
+            </div>
+            <div class="feature-item-v2">
+              <div class="feat-icon-v2" style="background:#eff6ff; color:var(--primary);">🔒</div>
+              <div>
+                <div class="feat-title-v2">Secure & Private</div>
+                <div class="feat-desc-v2">Your data is encrypted and always protected</div>
+              </div>
+            </div>
+            <div class="feature-item-v2">
+              <div class="feat-icon-v2" style="background:#fff8eb; color:var(--warning);">🔔</div>
+              <div>
+                <div class="feat-title-v2">Appointment Reminders</div>
+                <div class="feat-desc-v2">Get timely reminders for your upcoming appointments</div>
+              </div>
+            </div>
+            <div class="feature-item-v2">
+              <div class="feat-icon-v2" style="background:#f5f3ff; color:#7c3aed;">📞</div>
+              <div>
+                <div class="feat-title-v2">24/7 Support</div>
+                <div class="feat-desc-v2">We are here to help you anytime, anywhere</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: AI Prediction -->
+        <div id="page-ai" class="page-view">
+          <h2 class="title" style="margin-bottom: 24px;">🤖 AI Disease Prediction</h2>
+          <div class="grid grid-2">
+            <div class="panel">
+              <h3 style="margin-bottom: 20px;">Symptom Analysis</h3>
+              <p style="font-size: 14px; color: var(--gray); margin-bottom: 20px;">Input your current symptoms for an AI-driven risk assessment.</p>
+              <textarea class="form-control" rows="4" placeholder="Enter symptoms (e.g. fever, cough, chest pain)..." style="margin-bottom:20px;"></textarea>
+              <div style="display:flex; gap:12px;">
+                <button class="btn btn-primary" id="runAI" style="flex:1; justify-content:center;">Predict Disease</button>
+                <button class="btn btn-ghost" onclick="alert('Inputs Reset')">Reset</button>
+              </div>
+            </div>
+            <div class="panel" style="text-align:center;">
+              <h3>AI Result</h3>
+              <div class="ai-meter" style="margin: 20px auto;">
+                <canvas id="aiMeterChart"></canvas>
+                <div id="ai-score-label" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size: 24px; font-weight: 700;">0%</div>
+              </div>
+              <div id="ai-risk-badge" class="badge" style="font-size: 14px; display: none;">Low Risk</div>
+              <p id="ai-diagnosis-text" style="font-size: 14px; font-weight: 600; color: var(--dark); margin: 15px 0;">Enter symptoms and click predict.</p>
+              <p id="ai-recommendation" style="font-size: 12px; color: var(--gray); margin-bottom: 20px;">Analysis will appear here.</p>
+              <button class="btn btn-ghost" style="width:100%; justify-content:center;" onclick="saveAIReport()">💾 Save Report</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Medications -->
+        <div id="page-medications" class="page-view">
+          <div class="hr-header">
+            <div>
+              <h2 class="title">💊 Medicine Reminder</h2>
+              <p style="font-size: 13px; color: var(--gray);">Monday, May 20, 2024</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <div class="search-bar" style="width:250px;">
+                <span>🔍</span><input type="text" placeholder="Search medicine...">
+              </div>
+              <button id="addMedicineBtn" class="btn btn-primary">➕ Add Medicine</button>
+            </div>
+          </div>
+
+          <!-- Patient Info Card -->
+          <div class="panel patient-info-card" style="padding: 16px 24px; margin-bottom: 24px;">
+            <img src="https://i.pravatar.cc/150?img=12" class="patient-photo" style="width: 80px; height: 80px;">
+            <div class="patient-details-grid" style="gap: 10px 40px;">
+              <div style="grid-column: span 3; display:flex; align-items:center; gap:10px;">
+                <h3 id="meds-patient-name" style="font-size: 18px;">Patient Name</h3> <span class="patient-id-badge" id="meds-patient-id">Patient ID: ---</span>
+              </div>
+              <div class="detail-item"><div class="label">Age</div><div class="value" id="meds-patient-age">-- Years</div></div>
+              <div class="detail-item"><div class="label">Blood Group</div><div class="value" id="meds-patient-blood">--</div></div>
+              <div class="detail-item" style="grid-column: span 2;"><div class="label">Prescribed By</div><div class="value" id="meds-patient-doctor">---</div></div>
+            </div>
+          </div>
+
+          <!-- Summary Grid -->
+          <div class="grid grid-4" style="margin-bottom: 24px;">
+            <div class="panel stat-card" style="border-bottom: 4px solid var(--primary);">
+              <div class="stat-label">Total Medicines</div>
+              <div class="stat-val">5</div>
+            </div>
+            <div class="panel stat-card" style="border-bottom: 4px solid var(--success);">
+              <div class="stat-label">Taken</div>
+              <div class="stat-val">4</div>
+            </div>
+            <div class="panel stat-card" style="border-bottom: 4px solid var(--warning);">
+              <div class="stat-label">Pending</div>
+              <div class="stat-val">1</div>
+            </div>
+            <div class="panel stat-card" style="border-bottom: 4px solid var(--danger);">
+              <div class="stat-label">Missed</div>
+              <div class="stat-val">0</div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 380px; gap: 24px;">
+            <div class="left-col">
+              <!-- Schedule Table -->
+              <div class="panel" style="padding:0; margin-bottom: 24px;">
+                <div style="padding:20px 24px; border-bottom:1px solid #f1f5f9;">
+                  <h3 class="title" style="font-size:16px;">Today's Schedule</h3>
+                </div>
+                <table class="data-table">
+                  <thead>
+                    <tr><th>Medicine</th><th>Dosage</th><th>Time</th><th>Intake</th><th>Status</th><th>Action</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="font-weight:600;">Paracetamol</td><td>500 mg</td><td>08:00 AM</td><td>After Food</td>
+                      <td><span class="badge badge-success">✅ Taken</span></td>
+                      <td><button class="btn btn-ghost" style="padding:6px;"><span style="font-size:12px;">✏️</span></button></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600;">Vitamin D</td><td>1000 IU</td><td>02:00 PM</td><td>After Food</td>
+                      <td><span class="badge badge-warning">⏳ Pending</span></td>
+                      <td><button class="btn btn-primary take-med-btn" style="padding:6px 12px; font-size:10px;">Take Now</button></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600;">Amoxicillin</td><td>250 mg</td><td>08:00 PM</td><td>Before Food</td>
+                      <td><span class="badge" style="background:#f1f5f9; color:var(--gray);">⏰ Upcoming</span></td>
+                      <td><button class="btn btn-ghost" style="padding:6px;"><span style="font-size:12px;">✏️</span></button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- History -->
+              <div class="panel" style="padding:0;">
+                <div style="padding:20px 24px; border-bottom:1px solid #f1f5f9;">
+                  <h3 class="title" style="font-size:16px;">Recent History</h3>
+                </div>
+                <table class="data-table">
+                  <thead>
+                    <tr><th>Date</th><th>Medicine</th><th>Status</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>05 Jul</td><td>Paracetamol</td><td><b style="color:var(--success);">✅ Taken</b></td></tr>
+                    <tr><td>04 Jul</td><td>Vitamin D</td><td><b style="color:var(--danger);">❌ Missed</b></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="right-col">
+              <!-- Progress Widget -->
+              <div class="panel progress-widget">
+                <h3 class="title" style="font-size:16px; margin-bottom:20px;">Daily Adherence</h3>
+                <div style="position:relative; width:120px; height:120px; margin:0 auto;">
+                  <svg class="circular-progress-svg">
+                    <circle class="progress-bg" cx="60" cy="60" r="50"></circle>
+                    <circle class="progress-bar" cx="60" cy="60" r="50"></circle>
+                  </svg>
+                  <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);">
+                    <div style="font-size:22px; font-weight:700;">80%</div>
+                  </div>
+                </div>
+                <p style="font-size:12px; color:var(--gray); margin-top:15px;">4 of 5 medicines taken today</p>
+              </div>
+
+              <!-- Timeline -->
+              <div class="panel">
+                <h3 class="title" style="font-size:16px; margin-bottom:20px;">Reminder Timeline</h3>
+                <div class="medicine-timeline">
+                  <div class="timeline-segment">
+                    <div class="segment-header">🌅 Morning (08:00 AM)</div>
+                    <div class="medicine-mini-card"><span>Paracetamol</span> <span style="font-size:10px; color:var(--success);">Taken</span></div>
+                    <div class="medicine-mini-card"><span>Vitamin C</span> <span style="font-size:10px; color:var(--success);">Taken</span></div>
+                  </div>
+                  <div class="timeline-segment">
+                    <div class="segment-header">☀️ Afternoon (02:00 PM)</div>
+                    <div class="medicine-mini-card"><span>Vitamin D</span> <span style="font-size:10px; color:var(--warning);">Pending</span></div>
+                  </div>
+                  <div class="timeline-segment" style="border-left-color:transparent;">
+                    <div class="segment-header">🌙 Night (09:00 PM)</div>
+                    <div class="medicine-mini-card"><span>BP Medicine</span> <span style="font-size:10px; color:var(--gray);">Upcoming</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Refill -->
+              <div class="refill-alert">
+                <div style="display:flex; gap:12px; align-items:center;">
+                  <div style="font-size:24px;">📅</div>
+                  <div>
+                    <div style="font-weight:700; font-size:14px;">Refill Reminder</div>
+                    <div style="font-size:11px; color:#92400e;">Metformin running low (3 days left)</div>
+                  </div>
+                </div>
+                <button class="btn btn-primary" style="width:100%; margin-top:15px; background:#92400e; border:none; justify-content:center;">Request Refill</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:24px; display:flex; gap:15px; justify-content:flex-end;">
+             <button class="btn btn-ghost">📄 Download Schedule</button>
+             <button class="btn btn-ghost">🖨️ Print Schedule</button>
+             <button class="btn btn-primary">📤 Share with Doctor</button>
+          </div>
+        </div>
+
+        <!-- Page: Reports -->
+        <div id="page-reports" class="page-view">
+          <h2 class="title" style="margin-bottom: 24px;">Community Health Analytics</h2>
+          <div class="grid grid-2">
+            <div class="panel">
+              <h3 class="title">Age Distribution</h3>
+              <div style="height: 250px;"><canvas id="ageDistChart"></canvas></div>
+            </div>
+            <div class="panel">
+              <h3 class="title">Common Conditions</h3>
+              <div style="height: 250px;"><canvas id="conditionsChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Emergency -->
+        <div id="page-emergency" class="page-view">
+          <div class="hr-header">
+            <div>
+              <h2 class="title">🚨 Emergency Alert</h2>
+              <p style="font-size: 13px; color: var(--gray);">Immediate response required</p>
+            </div>
+            <div class="badge badge-danger" style="padding: 10px 20px; font-size: 14px;">Status: NORMAL</div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 400px; gap: 24px;">
+            <div class="left-col">
+              <div class="panel" style="text-align:center; padding: 60px 40px; background: #fff5f5;">
+                <div class="sos-btn" id="sos-btn-main" style="width: 180px; height: 180px; font-size: 32px; cursor:pointer; user-select:none;">SOS</div>
+                <h3 style="margin-top: 30px; color: var(--danger); font-size: 24px;">Press for 3 Seconds</h3>
+                <p style="color: var(--gray); margin-top: 10px;">Emergency services will be notified immediately</p>
+              </div>
+
+              <div class="grid grid-2" style="margin-top: 24px;">
+                <div class="panel">
+                  <h3 class="title" style="margin-bottom: 20px; font-size: 16px;">Quick Actions</h3>
+                  <div class="grid grid-2" style="gap: 12px;">
+                    <button class="btn btn-ghost emergency-action" data-type="Ambulance" style="flex-direction:column; padding: 20px; gap: 10px; background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3;">🚑 <span style="font-size: 12px;">Ambulance</span></button>
+                    <button class="btn btn-ghost emergency-action" data-type="Doctor" style="flex-direction:column; padding: 20px; gap: 10px; background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe;">👨‍⚕️ <span style="font-size: 12px;">Doctor</span></button>
+                    <button class="btn btn-ghost emergency-action" data-type="Family" style="flex-direction:column; padding: 20px; gap: 10px; background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0;">👨‍👩‍👦 <span style="font-size: 12px;">Family</span></button>
+                    <button class="btn btn-ghost emergency-action" data-type="Hospital" style="flex-direction:column; padding: 20px; gap: 10px; background: #fdf2ff; color: #9333ea; border: 1px solid #f5d0fe;">🏥 <span style="font-size: 12px;">Hospital</span></button>
+                  </div>
+                </div>
+                <div class="panel">
+                  <h3 class="title" style="margin-bottom: 20px; font-size: 16px;">Nearby Hospitals</h3>
+                  <div style="display:flex; flex-direction:column; gap:12px;">
+                    <div style="padding: 12px; border: 1px solid #f1f5f9; border-radius: 12px; display:flex; justify-content:space-between; align-items:center;">
+                       <div><div style="font-weight:600; font-size:13px;">City Hospital</div><div style="font-size:11px; color:var(--gray);">0.8 km away</div></div>
+                       <button class="btn btn-primary" style="padding: 6px 12px; font-size: 11px;">Call</button>
+                    </div>
+                    <div style="padding: 12px; border: 1px solid #f1f5f9; border-radius: 12px; display:flex; justify-content:space-between; align-items:center;">
+                       <div><div style="font-weight:600; font-size:13px;">Global Care</div><div style="font-size:11px; color:var(--gray);">1.5 km away</div></div>
+                       <button class="btn btn-primary" style="padding: 6px 12px; font-size: 11px;">Call</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="right-col">
+              <div class="panel" style="padding:0; overflow:hidden; height: 350px;" id="map-container">
+                <div id="map" style="width: 100%; height: 100%;"></div>
+              </div>
+              <div class="panel" style="margin-top: 24px;">
+                <h3 class="title" style="margin-bottom: 20px; font-size: 16px;">Alert Progress</h3>
+                <div style="display:flex; flex-direction:column; gap:20px;">
+                  <div style="display:flex; align-items:center; gap:15px; opacity: 0.4;" id="step-sos"><div style="width:24px; height:24px; border-radius:50%; background:var(--primary); color:white; display:flex; align-items:center; justify-content:center; font-size:10px;">1</div> <div style="font-size:13px; font-weight:500;">SOS Sent</div></div>
+                  <div style="display:flex; align-items:center; gap:15px; opacity: 0.4;" id="step-doctor"><div style="width:24px; height:24px; border-radius:50%; background:var(--gray); color:white; display:flex; align-items:center; justify-content:center; font-size:10px;">2</div> <div style="font-size:13px; font-weight:500;">Doctor Notified</div></div>
+                  <div style="display:flex; align-items:center; gap:15px; opacity: 0.4;" id="step-ambulance"><div style="width:24px; height:24px; border-radius:50%; background:var(--gray); color:white; display:flex; align-items:center; justify-content:center; font-size:10px;">3</div> <div style="font-size:13px; font-weight:500;">Ambulance Dispatched</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Chat -->
+        <div id="page-chat" class="page-view">
+          <h2 class="title" style="margin-bottom: 24px;">Chat & Consultation</h2>
+          <div class="chat-container">
+            <div class="chat-list" id="chat-user-list">
+               <div style="padding: 16px; font-weight: 600;">Contacts</div>
+               <!-- Users will be populated here -->
+               <div class="chat-user-item active" style="padding: 12px 16px; border-left: 3px solid var(--primary); cursor:pointer;">
+                 Dr. Kumar <span style="font-size: 10px; color: var(--success);">Online</span>
+               </div>
+            </div>
+            <div class="chat-main">
+              <div style="padding: 16px; background: white; border-bottom: 1px solid #e2e8f0; font-weight: 600;" id="chat-with-name">Dr. Kumar</div>
+              <div id="chat-messages" style="flex:1; padding: 20px; overflow-y: auto; display:flex; flex-direction:column; gap:10px;">
+                <div class="chat-msg msg-received">Hello, how can I help?</div>
+              </div>
+              <form id="chat-form" style="padding: 15px; border-top: 1px solid #e2e8f0; display:flex; gap:10px;">
+                <input type="text" id="chat-input" class="form-control" placeholder="Type your message..." style="flex:1; height:45px; padding-left:15px;">
+                <button type="submit" class="btn btn-primary" style="width:100px;">Send</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Lab Reports -->
+        <div id="page-lab-reports" class="page-view">
+          <div class="hr-header">
+            <div>
+              <h2 class="title">🧪 Laboratory Reports</h2>
+              <p style="font-size: 13px; color: var(--gray);">View and manage your diagnostic test results</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <input type="text" class="form-control" placeholder="Search report name..." style="width:250px;">
+              <input type="file" id="labReportFileInput" style="display:none;" accept=".pdf,.jpg,.png">
+              <button class="btn btn-primary" id="openUploadModalBtn" onclick="document.getElementById('labReportFileInput').click()">➕ Upload Report</button>
+            </div>
+          </div>
+
+          <!-- Patient Profile Card -->
+          <div class="panel patient-info-card" style="padding: 16px 24px; margin-bottom: 24px;">
+            <img src="https://i.pravatar.cc/150?img=12" class="patient-photo" style="width: 80px; height: 80px;">
+            <div class="patient-details-grid" style="gap: 10px 40px;">
+              <div style="grid-column: span 3; display:flex; align-items:center; gap:10px;">
+                <h3 id="vitals-patient-name" style="font-size: 18px;">Patient Name</h3> <span class="patient-id-badge" id="vitals-patient-id">Patient ID: ---</span>
+              </div>
+              <div class="detail-item"><div class="label">Age</div><div class="value">21 Years</div></div>
+              <div class="detail-item"><div class="label">Gender</div><div class="value">Male</div></div>
+              <div class="detail-item"><div class="label">Blood Group</div><div class="value">B+</div></div>
+              <div class="detail-item" style="grid-column: span 2;"><div class="label">Consulting Doctor</div><div class="value">Dr. Kumar (Cardiologist)</div></div>
+            </div>
+          </div>
+
+          <!-- Lab Summary Cards -->
+          <div class="lab-summary-grid">
+            <div class="lab-summary-card"><span class="icon">🩸</span><span class="label">Blood Test</span></div>
+            <div class="lab-summary-card"><span class="icon">❤️</span><span class="label">CBC</span></div>
+            <div class="lab-summary-card"><span class="icon">🩺</span><span class="label">Blood Sugar</span></div>
+            <div class="lab-summary-card"><span class="icon">🧬</span><span class="label">Cholesterol</span></div>
+            <div class="lab-summary-card"><span class="icon">🩻</span><span class="label">X-Ray</span></div>
+            <div class="lab-summary-card"><span class="icon">🧲</span><span class="label">MRI</span></div>
+            <div class="lab-summary-card"><span class="icon">🫀</span><span class="label">ECG</span></div>
+            <div class="lab-summary-card"><span class="icon">🫁</span><span class="label">CT Scan</span></div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 380px; gap: 24px;">
+            <div class="left-col">
+              <div class="panel" style="padding:0;">
+                <div style="padding:20px 24px; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center;">
+                   <h3 class="title" style="font-size:16px;">Reports Table</h3>
+                   <div style="display:flex; gap:10px;">
+                      <select class="form-control" style="font-size:11px; padding:5px 10px; width:auto;"><option>All Time</option><option>Last Month</option></select>
+                      <select class="form-control" style="font-size:11px; padding:5px 10px; width:auto;"><option>All Types</option><option>Blood</option></select>
+                   </div>
+                </div>
+                <table class="data-table">
+                  <thead>
+                    <tr><th>Report</th><th>Date</th><th>Doctor</th><th>Status</th><th>Action</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="font-weight:600; color:var(--primary);">CBC</td><td>05 Jul 2026</td><td>Dr. Kumar</td>
+                      <td><span class="badge badge-success">Completed</span></td>
+                      <td><button class="btn btn-ghost" style="padding:6px 12px; font-size:11px;">View</button></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600; color:var(--primary);">Blood Sugar</td><td>05 Jul 2026</td><td>Dr. Kumar</td>
+                      <td><span class="badge badge-success">Completed</span></td>
+                      <td><button class="btn btn-ghost" style="padding:6px 12px; font-size:11px;">Download</button></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600; color:var(--primary);">ECG</td><td>06 Jul 2026</td><td>Dr. Priya</td>
+                      <td><span class="badge badge-warning">Pending</span></td>
+                      <td><button class="btn btn-ghost" style="padding:6px 12px; font-size:11px;">View</button></td>
+                    </tr>
+                    <tr>
+                      <td style="font-weight:600; color:var(--primary);">X-Ray</td><td>06 Jul 2026</td><td>Dr. Kumar</td>
+                      <td><span class="badge badge-success">Completed</span></td>
+                      <td><button class="btn btn-ghost" style="padding:6px 12px; font-size:11px;">Download</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="panel upload-section" id="dropZone">
+                 <div style="font-size:40px; margin-bottom:15px;">☁️</div>
+                 <h3 style="font-size:16px; margin-bottom:8px;">Upload New Report</h3>
+                 <p style="font-size:12px; color:var(--gray); margin-bottom:20px;">Drag and drop your PDF, JPG or PNG here</p>
+                 <button class="btn btn-primary" style="margin:0 auto; padding:10px 30px;">Select File</button>
+              </div>
+            </div>
+
+            <div class="right-col">
+              <!-- Report Details (Dynamic Simulation) -->
+              <div class="report-details-panel">
+                <h3 class="title" style="font-size:16px; margin-bottom:20px;">Report Details</h3>
+                <div style="display:flex; flex-direction:column; gap:12px; font-size:13px;">
+                   <div style="display:flex; justify-content:space-between;"><span style="color:var(--gray);">Test Name:</span> <b>Complete Blood Count</b></div>
+                   <div style="display:flex; justify-content:space-between;"><span style="color:var(--gray);">Test Date:</span> <b>05 Jul 2026</b></div>
+                   <div style="display:flex; justify-content:space-between;"><span style="color:var(--gray);">Hospital:</span> <b>City Hospital</b></div>
+                   <div style="display:flex; justify-content:space-between;"><span style="color:var(--gray);">Lab Tech:</span> <b>Sarah Wilson</b></div>
+                   <div style="display:flex; justify-content:space-between;"><span style="color:var(--gray);">Doctor:</span> <b>Dr. Kumar</b></div>
+                   <div style="display:flex; justify-content:space-between; padding-top:10px; border-top:1px solid #f1f5f9;"><span style="color:var(--gray);">Result:</span> <b style="color:var(--danger);">11.2 g/dL (Low)</b></div>
+                   <div style="display:flex; justify-content:space-between;"><span style="color:var(--gray);">Normal Range:</span> <b>13.5 - 17.5 g/dL</b></div>
+                </div>
+
+                <div class="ai-analysis-box">
+                   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                      <span style="font-weight:600; font-size:12px;">🤖 AI Analysis</span>
+                      <span class="badge badge-danger" style="font-size:9px;">🚨 Critical</span>
+                   </div>
+                   <p style="font-size:11px; line-height:1.4; color:#475569;">Analysis indicates mild Anemia. High iron intake and follow-up with Dr. Kumar is recommended.</p>
+                </div>
+
+                <div style="margin-top:20px;">
+                   <h4 style="font-size:12px; font-weight:600; margin-bottom:8px;">🩺 Doctor Notes</h4>
+                   <p style="font-size:11px; color:var(--gray); font-style:italic;">"Increase iron-rich foods in diet. Re-test in 2 weeks. Prescription added to Medicines page."</p>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:25px;">
+                   <button class="btn btn-ghost" style="padding:10px; font-size:11px; justify-content:center;">📄 PDF</button>
+                   <button class="btn btn-ghost" style="padding:10px; font-size:11px; justify-content:center;">🖨️ Print</button>
+                   <button class="btn btn-ghost" style="padding:10px; font-size:11px; justify-content:center;">📤 Share</button>
+                   <button class="btn btn-ghost" style="padding:10px; font-size:11px; justify-content:center;">📧 Email</button>
+                </div>
+              </div>
+
+              <div class="panel" style="margin-top:24px;">
+                 <h3 class="title" style="font-size:15px; margin-bottom:15px;">Report History</h3>
+                 <div style="display:flex; flex-direction:column; gap:12px;">
+                    <div style="font-size:12px; padding:10px; border-radius:10px; background:#f8fafc; display:flex; justify-content:space-between; align-items:center;">
+                       <span>Monthly Report</span> <span style="font-weight:600; color:var(--primary);">June 2024</span>
+                    </div>
+                    <div style="font-size:12px; padding:10px; border-radius:10px; background:#f8fafc; display:flex; justify-content:space-between; align-items:center;">
+                       <span>Yearly Report</span> <span style="font-weight:600; color:var(--primary);">2023</span>
+                    </div>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Doctor Appointments -->
+        <div id="page-doctor-appointments" class="page-view">
+          <h2 class="title">📅 Today's Appointments</h2>
+          <div class="panel">
+            <table class="data-table">
+              <thead><tr><th>Patient</th><th>Time</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td>Rahul Verma</td><td>10:30 AM</td><td>General Checkup</td><td><span class="badge badge-success">Confirmed</span></td><td><button class="btn btn-primary">Start Call</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Page: Patient List -->
+        <div id="page-patient-list" class="page-view">
+          <div class="hr-header" style="margin-bottom:32px;">
+            <div>
+              <h2 class="title">👥 Patient Management</h2>
+              <p style="font-size: 13px; color: var(--gray);">View and manage your community patients</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <div class="search-bar" style="width:350px;">
+                <span>🔍</span><input type="text" placeholder="Search by name, ID or phone...">
+              </div>
+              <button class="btn btn-primary">+ Add New Patient</button>
+            </div>
+          </div>
+
+          <!-- Filters -->
+          <div class="panel" style="display:flex; gap:15px; align-items:center; padding: 15px 24px;">
+            <span style="font-size:13px; font-weight:600; color:var(--gray);">Filter By:</span>
+            <select class="form-control" style="width:auto; font-size:12px; padding:8px 12px;"><option>Age Group</option></select>
+            <select class="form-control" style="width:auto; font-size:12px; padding:8px 12px;"><option>Gender</option></select>
+            <select class="form-control" style="width:auto; font-size:12px; padding:8px 12px;"><option>Blood Group</option></select>
+            <select class="form-control" style="width:auto; font-size:12px; padding:8px 12px;"><option>Disease/Condition</option></select>
+            <button class="btn btn-ghost" style="padding:8px 15px; font-size:12px;">Reset Filters</button>
+          </div>
+
+          <!-- Patient Grid -->
+          <div class="grid grid-3">
+            <!-- Patient Card 1 -->
+            <div class="panel" style="padding:20px; transition: 0.3s; border: 1px solid #f1f5f9;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='#f1f5f9'">
+              <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px;">
+                <img src="https://i.pravatar.cc/100?img=12" style="width:60px; height:60px; border-radius:12px; object-fit:cover;">
+                <div>
+                  <div style="font-weight:700; font-size:15px;">Rahul Verma</div>
+                  <div style="font-size:11px; color:var(--gray);">Patient ID: <span style="color:var(--primary); font-weight:600;">PT001</span></div>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:20px;">
+                <div style="font-size:12px; color:var(--gray);">Age: <b style="color:var(--dark);">21 Years</b></div>
+                <div style="font-size:12px; color:var(--gray);">Blood: <b style="color:var(--dark);">B+</b></div>
+                <div style="font-size:12px; color:var(--gray);">Phone: <b style="color:var(--dark);">9876543210</b></div>
+                <div style="font-size:12px; color:var(--gray);">Last Visit: <b style="color:var(--dark);">12 Jul 2026</b></div>
+              </div>
+              <div class="grid grid-2" style="gap:8px;">
+                <button class="btn btn-ghost" style="font-size:11px; padding:8px; justify-content:center;" onclick="showPage('records')">📋 Record</button>
+                <button class="btn btn-ghost" style="font-size:11px; padding:8px; justify-content:center;" onclick="showPage('vitals')">❤️ Vitals</button>
+                <button class="btn btn-ghost" style="font-size:11px; padding:8px; justify-content:center;" onclick="showPage('medications')">💊 Meds</button>
+                <button class="btn btn-primary" style="font-size:11px; padding:8px; justify-content:center;" onclick="showPage('nursing-notes')">📝 Notes</button>
+              </div>
+            </div>
+
+            <!-- Patient Card 2 -->
+            <div class="panel" style="padding:20px; transition: 0.3s; border: 1px solid #f1f5f9;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="this.style.borderColor='#f1f5f9'">
+              <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px;">
+                <img src="https://i.pravatar.cc/100?img=13" style="width:60px; height:60px; border-radius:12px; object-fit:cover;">
+                <div>
+                  <div style="font-weight:700; font-size:15px;">Priya Singh</div>
+                  <div style="font-size:11px; color:var(--gray);">Patient ID: <span style="color:var(--primary); font-weight:600;">PT045</span></div>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:20px;">
+                <div style="font-size:12px; color:var(--gray);">Age: <b style="color:var(--dark);">28 Years</b></div>
+                <div style="font-size:12px; color:var(--gray);">Blood: <b style="color:var(--dark);">O+</b></div>
+                <div style="font-size:12px; color:var(--gray);">Phone: <b style="color:var(--dark);">9876543211</b></div>
+                <div style="font-size:12px; color:var(--gray);">Last Visit: <b style="color:var(--dark);">05 Jul 2026</b></div>
+              </div>
+              <div class="grid grid-2" style="gap:8px;">
+                <button class="btn btn-ghost" style="font-size:11px; padding:8px; justify-content:center;" onclick="showPage('records')">📋 Record</button>
+                <button class="btn btn-ghost" style="font-size:11px; padding:8px; justify-content:center;" onclick="showPage('vitals')">❤️ Vitals</button>
+                <button class="btn btn-ghost" style="font-size:11px; padding:8px; justify-content:center;" onclick="showPage('medications')">💊 Meds</button>
+                <button class="btn btn-primary" style="font-size:11px; padding:8px; justify-content:center;" onclick="showPage('nursing-notes')">📝 Notes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Prescriptions -->
+        <div id="page-prescriptions" class="page-view">
+          <div class="hr-header" style="margin-bottom:32px;">
+            <div>
+              <h2 class="title">💊 Digital Prescription Management</h2>
+              <p style="font-size: 13px; color: var(--gray);">Create and manage patient medication plans</p>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 380px; gap:24px;">
+            <div class="left-col-presc">
+              <div class="panel">
+                <h3 class="title" style="margin-bottom:24px;">New Prescription</h3>
+                <form style="display:grid; gap:20px;">
+                  <div class="grid grid-2">
+                    <div class="form-group">
+                      <label>Select Patient</label>
+                      <select class="form-control"><option>Rahul Verma (PT001)</option></select>
+                    </div>
+                    <div class="form-group">
+                      <label>Diagnosis</label>
+                      <input type="text" class="form-control" placeholder="e.g. Hypertension">
+                    </div>
+                  </div>
+
+                  <div style="background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #e2e8f0;">
+                    <div style="display:grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap:10px; margin-bottom:15px; font-weight:600; font-size:12px; color:var(--gray);">
+                      <div>Medicine</div><div>Dosage</div><div>M</div><div>A</div><div>N</div>
+                    </div>
+                    <div style="display:grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap:10px; align-items:center; margin-bottom:10px;">
+                      <input type="text" class="form-control" placeholder="Name" value="Metformin">
+                      <input type="text" class="form-control" placeholder="500mg" value="500mg">
+                      <input type="checkbox" checked>
+                      <input type="checkbox">
+                      <input type="checkbox" checked>
+                    </div>
+                    <button type="button" class="btn btn-ghost" style="font-size:11px; margin-top:10px;">+ Add Another Medicine</button>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Instructions / Advice</label>
+                    <textarea class="form-control" rows="3" placeholder="Take after meals, avoid salty food..."></textarea>
+                  </div>
+
+                  <div style="display:flex; gap:12px; justify-content:flex-end;">
+                    <button type="button" class="btn btn-ghost">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="alert('Prescription Saved and Sent to Patient')">Save & Send to Patient</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="right-col-presc">
+              <div class="panel">
+                <h3 class="title" style="margin-bottom:20px; font-size:15px;">Recent Prescriptions</h3>
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                   <div style="padding:15px; border:1px solid #f1f5f9; border-radius:12px;">
+                     <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                       <div>
+                         <div style="font-weight:600; font-size:13px;">Rahul Verma</div>
+                         <div style="font-size:11px; color:var(--gray);">12 Jul 2026 - Fever</div>
+                       </div>
+                       <button class="btn btn-ghost" style="padding:4px; font-size:12px;">📄</button>
+                     </div>
+                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Analytics -->
+        <div id="page-analytics" class="page-view">
+          <div class="hr-header" style="margin-bottom:32px;">
+            <div>
+              <h2 class="title">📊 Health Analytics & Reports</h2>
+              <p style="font-size: 13px; color: var(--gray);">Community-wide health trends and insights</p>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn btn-ghost">Export PDF</button>
+              <button class="btn btn-primary">Generate Report</button>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="panel">
+              <h3 class="title" style="margin-bottom:20px;">Patient Population Trend</h3>
+              <div style="height:300px;"><canvas id="populationChart"></canvas></div>
+            </div>
+            <div class="panel">
+              <h3 class="title" style="margin-bottom:20px;">Common Medical Conditions</h3>
+              <div style="height:300px;"><canvas id="diseaseChart"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Lab Sample Collection -->
+        <div id="page-lab-samples" class="page-view">
+          <div class="hr-header" style="margin-bottom:32px;">
+            <div>
+              <h2 class="title">🧪 Lab Sample Collection</h2>
+              <p style="font-size: 13px; color: var(--gray);">Manage diagnostic samples for testing</p>
+            </div>
+            <button class="btn btn-primary">+ New Sample Collection</button>
+          </div>
+          <div class="panel" style="padding:0; overflow:hidden;">
+            <table class="data-table">
+              <thead><tr><th>Patient</th><th>Test Type</th><th>Sample Type</th><th>Collection Time</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Rahul Verma</td>
+                  <td>Blood Sugar</td>
+                  <td>Blood (Fasting)</td>
+                  <td>08:00 AM</td>
+                  <td><span class="badge badge-warning">Pending</span></td>
+                  <td><button class="btn btn-primary" style="padding:6px 12px; font-size:10px;">Collect Sample</button></td>
+                </tr>
+                <tr>
+                  <td>Priya Singh</td>
+                  <td>CBC</td>
+                  <td>Blood (EDTA)</td>
+                  <td>09:30 AM</td>
+                  <td><span class="badge badge-success">Sent to Lab</span></td>
+                  <td><button class="btn btn-ghost" style="padding:6px 12px; font-size:10px;">Track</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Page: Nursing Notes -->
+        <div id="page-nursing-notes" class="page-view">
+          <div class="hr-header" style="margin-bottom:32px;">
+            <div>
+              <h2 class="title">📝 Nursing Observation Notes</h2>
+              <p style="font-size: 13px; color: var(--gray);">Clinical observations and nursing care documentation</p>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns: 1fr 380px; gap:24px;">
+            <div class="left-col-notes">
+              <div class="panel">
+                <h3 class="title" style="margin-bottom:20px;">Add Observation Note</h3>
+                <form style="display:grid; gap:15px;">
+                  <div class="form-group">
+                    <label>Patient</label>
+                    <select class="form-control"><option>Rahul Verma (PT001)</option></select>
+                  </div>
+                  <div class="form-group">
+                    <label>Observation / Symptoms</label>
+                    <textarea class="form-control" rows="4" placeholder="Describe patient condition..."></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Treatment / Care Given</label>
+                    <textarea class="form-control" rows="2" placeholder="e.g. Sponge bath, wound dressing..."></textarea>
+                  </div>
+                  <div style="display:flex; gap:12px; justify-content:flex-end;">
+                    <button type="button" class="btn btn-ghost">Cancel</button>
+                    <button type="button" class="btn btn-primary">Save Note</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="right-col-notes">
+              <div class="panel">
+                <h3 class="title" style="margin-bottom:20px; font-size:15px;">Recent Notes</h3>
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                  <div style="padding:15px; border:1px solid #f1f5f9; border-radius:12px;">
+                    <div style="font-weight:600; font-size:13px; margin-bottom:5px;">Rahul Verma</div>
+                    <div style="font-size:11px; color:var(--gray); margin-bottom:10px;">12 Jul 2026 - 10:45 AM</div>
+                    <p style="font-size:12px; line-height:1.4;">Patient complains of mild headache. BP checked and found stable. Advised rest.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Daily Tasks -->
+        <div id="page-daily-tasks" class="page-view">
+          <div class="hr-header" style="margin-bottom:32px;">
+            <div>
+              <h2 class="title">📅 Daily Nursing Schedule</h2>
+              <p style="font-size: 13px; color: var(--gray);">Planned care tasks and routines for today</p>
+            </div>
+          </div>
+          <div class="grid grid-3">
+            <div class="panel">
+              <h3 class="title" style="margin-bottom:20px; font-size:16px;">Medicine Schedule</h3>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <div style="display:flex; gap:12px; font-size:13px; padding:10px; background:var(--light-gray); border-radius:10px;">
+                  <span style="font-weight:700;">08:00 AM</span>
+                  <span>Paracetamol - Ward A</span>
+                </div>
+                <div style="display:flex; gap:12px; font-size:13px; padding:10px; background:var(--light-gray); border-radius:10px;">
+                  <span style="font-weight:700;">09:00 AM</span>
+                  <span>Insulin - Ward B</span>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <h3 class="title" style="margin-bottom:20px; font-size:16px;">Patient Rounds</h3>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <div style="font-size:13px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>Ward A - Morning Check</span>
+                  <button class="btn btn-ghost" style="padding:4px 8px; font-size:10px;">Start</button>
+                </div>
+                <div style="font-size:13px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>Sector 4 - Home Visits</span>
+                  <button class="btn btn-ghost" style="padding:4px 8px; font-size:10px;">View Map</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel">
+              <h3 class="title" style="margin-bottom:20px; font-size:16px;">Vax Schedule</h3>
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <div style="font-size:13px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>Child Vax Camp</span>
+                  <span class="badge badge-success">Active</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Nurse Reports -->
+        <div id="page-nurse-reports" class="page-view">
+          <div class="hr-header" style="margin-bottom:32px;">
+            <div>
+              <h2 class="title">📊 Nursing Activity Reports</h2>
+              <p style="font-size: 13px; color: var(--gray);">Summary of care provided and patients attended</p>
+            </div>
+            <button class="btn btn-primary">Download Monthly Report</button>
+          </div>
+          <div class="grid grid-3">
+            <div class="panel stat-card">
+              <div class="stat-label">Patients Attended</div>
+              <div class="stat-val">120</div>
+              <div class="badge badge-success">This Week</div>
+            </div>
+            <div class="panel stat-card">
+              <div class="stat-label">Meds Administered</div>
+              <div class="stat-val">450</div>
+              <div class="badge badge-success">This Week</div>
+            </div>
+            <div class="panel stat-card">
+              <div class="stat-label">Emergencies Handled</div>
+              <div class="stat-val">8</div>
+              <div class="badge badge-warning">Response: 100%</div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3 class="title" style="margin-bottom:24px;">Care Statistics</h3>
+            <div style="height:300px;"><canvas id="nurseCareChart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- Page: User Management -->
+        <div id="page-user-management" class="page-view">
+          <div class="hr-header" style="margin-bottom:32px;">
+            <div>
+              <h2 class="title">🛡️ User Management</h2>
+              <p style="font-size: 13px; color: var(--gray);">Manage system access for healthcare workers and admins</p>
+            </div>
+            <button class="btn btn-primary">+ Add New User</button>
+          </div>
+          <div class="panel" style="padding:0; overflow:hidden;">
+            <table class="data-table">
+              <thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td>Dr. Anjali Sharma</td><td>Doctor</td><td>anjali@hospital.com</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost">Edit</button> <button class="btn btn-danger" style="padding:5px 10px; font-size:10px; background:none; border:1px solid #fee2e2; color:#dc2626;">Remove</button></td></tr>
+                <tr><td>Nurse Pooja</td><td>Nurse</td><td>pooja@hospital.com</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost">Edit</button> <button class="btn btn-danger" style="padding:5px 10px; font-size:10px; background:none; border:1px solid #fee2e2; color:#dc2626;">Remove</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Page: Manage Doctors -->
+        <div id="page-manage-doctors" class="page-view">
+          <div class="hr-header" style="margin-bottom:32px;">
+            <div>
+              <h2 class="title">👨‍⚕️ Manage Doctors</h2>
+              <p style="font-size: 13px; color: var(--gray);">Add, Edit or Remove medical practitioners</p>
+            </div>
+            <button class="btn btn-primary">+ Add Doctor</button>
+          </div>
+          <div class="panel" style="padding:0; overflow:hidden;">
+            <table class="data-table">
+              <thead><tr><th>Doctor Name</th><th>Specialization</th><th>Experience</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td>Dr. Kumar</td><td>Cardiologist</td><td>12 Years</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost">Edit</button> <button class="btn btn-danger" style="padding:5px 10px; font-size:10px; background:none; border:1px solid #fee2e2; color:#dc2626;">Delete</button></td></tr>
+                <tr><td>Dr. Priya Sharma</td><td>General Physician</td><td>8 Years</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost">Edit</button> <button class="btn btn-danger" style="padding:5px 10px; font-size:10px; background:none; border:1px solid #fee2e2; color:#dc2626;">Delete</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Page: Manage Nurses -->
+        <div id="page-manage-nurses" class="page-view">
+          <div class="hr-header" style="margin-bottom:32px;">
+            <div>
+              <h2 class="title">👩‍⚕️ Manage Nurses</h2>
+              <p style="font-size: 13px; color: var(--gray);">Manage nursing staff and assignments</p>
+            </div>
+            <button class="btn btn-primary">+ Add Nurse</button>
+          </div>
+          <div class="panel" style="padding:0; overflow:hidden;">
+            <table class="data-table">
+              <thead><tr><th>Nurse Name</th><th>Ward</th><th>Shift</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td>Nurse Pooja</td><td>Ward A</td><td>Morning</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-ghost">Edit</button> <button class="btn btn-danger" style="padding:5px 10px; font-size:10px; background:none; border:1px solid #fee2e2; color:#dc2626;">Delete</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Page: Manage Patients -->
+        <div id="page-manage-patients" class="page-view">
+          <div class="hr-header" style="margin-bottom:32px;">
+            <div>
+              <h2 class="title">👥 Manage Patients</h2>
+              <p style="font-size: 13px; color: var(--gray);">Administrative control over patient records</p>
+            </div>
+            <button class="btn btn-primary">+ Add Patient</button>
+          </div>
+          <div class="panel" style="padding:0; overflow:hidden;">
+            <table class="data-table">
+              <thead><tr><th>Patient Name</th><th>ID</th><th>Last Visit</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td>Rahul Verma</td><td>PT001</td><td>12 Jul 2026</td><td><span class="badge badge-success">Stable</span></td><td><button class="btn btn-ghost">Edit</button> <button class="btn btn-danger" style="padding:5px 10px; font-size:10px; background:none; border:1px solid #fee2e2; color:#dc2626;">Delete</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Page: Profile -->
+        <div id="page-profile" class="page-view">
+          <h2 class="title" style="margin-bottom: 24px;">👤 My Profile</h2>
+          <div class="panel">
+            <div style="display:flex; gap:30px; align-items:center;">
+              <img src="https://i.pravatar.cc/150?img=12" id="profile-photo-img" style="width:120px; height:120px; border-radius:50%; border:4px solid var(--primary-bg); object-fit: cover;">
+              <div>
+                <h3 id="profile-name-display">Patient Name</h3>
+                <p style="color:var(--gray);" id="profile-email-display">patient@example.com</p>
+                <input type="file" id="profilePhotoInput" style="display:none;" accept="image/*">
+                <button class="btn btn-primary" style="margin-top:15px;" onclick="document.getElementById('profilePhotoInput').click()">Update Profile Photo</button>
+              </div>
+            </div>
+            <form id="profileForm" style="margin-top:30px; display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+              <div class="form-group"><label>Full Name</label><input type="text" name="name" class="form-control" value="Patient Name"></div>
+              <div class="form-group"><label>Phone Number</label><input type="tel" name="phone" class="form-control" value="0000000000"></div>
+              <div class="form-group"><label>Address</label><input type="text" name="address" class="form-control" value="Address line here"></div>
+              <div class="form-group"><label>Emergency Contact</label><input type="tel" name="emergency" class="form-control" value="0000000000"></div>
+              <div style="grid-column: span 2; display:flex; justify-content:flex-end; gap:10px;">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Page: Notifications -->
+        <div id="page-notifications" class="page-view">
+          <h2 class="title" style="margin-bottom: 24px;">🔔 Notifications</h2>
+          <div class="panel" id="notifications-list">
+            <div style="padding:15px; border-bottom:1px solid #f1f5f9; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="font-weight:600;">Medicine Reminder</div>
+                <div style="font-size:12px; color:var(--gray);">Don't forget your BP pill at 9 PM</div>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <button class="btn btn-ghost" style="padding:5px 10px; font-size:11px;">Mark as Read</button>
+                <button class="btn btn-danger" style="padding:5px 10px; font-size:11px; background:none; border:1px solid #fee2e2; color:#dc2626;">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Settings -->
+        <div id="page-settings" class="page-view">
+          <h2 class="title" style="margin-bottom: 24px;">⚙️ Settings</h2>
+          <div class="panel">
+            <h3 style="font-size:16px; margin-bottom:20px;">Account Settings</h3>
+            <div style="display:flex; flex-direction:column; gap:15px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span>Dark Mode</span>
+                <button class="btn btn-ghost" id="darkModeToggle">Toggle</button>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span>Language</span>
+                <select class="form-control" style="width:auto;" id="langSwitch">
+                  <option value="en">English</option>
+                  <option value="ta">Tamil</option>
+                </select>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; padding-top:15px; border-top:1px solid #f1f5f9;">
+                <span>Change Password</span>
+                <button class="btn btn-ghost" onclick="alert('Password reset email sent!')">Send Reset Link</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" data-roles="admin" style="display:none;">
+            <h3 style="font-size:16px; margin-bottom:20px;">System Administration</h3>
+            <div style="display:flex; flex-direction:column; gap:15px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span>Hospital Details</span>
+                <button class="btn btn-ghost" onclick="alert('Opening Hospital Configuration...')">Configure</button>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span>System Backup</span>
+                <button class="btn btn-ghost" onclick="showToast('Backup started...')">Backup Now</button>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span>Restore Point</span>
+                <button class="btn btn-ghost" onclick="alert('Select restore point...')">Restore</button>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span>Theme Customization</span>
+                <button class="btn btn-ghost" onclick="alert('Color picker loading...')">Customize</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Video Consultation -->
+        <div id="page-video-consult" class="page-view">
+          <div class="hr-header">
+            <div>
+              <h2 class="title">🎥 Video Consultation</h2>
+              <p style="font-size: 13px; color: var(--gray);">Active Meeting with Rahul Verma (PT001)</p>
+            </div>
+            <div style="display:flex; gap:12px;">
+              <button class="btn btn-danger" onclick="showPage('doctor-dashboard')">End Call</button>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 300px; gap: 24px;">
+            <div class="panel" style="padding:0; overflow:hidden; background:#000; height: 500px; position:relative; display:flex; align-items:center; justify-content:center; border-radius:16px;">
+                <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" style="width:100%; height:100%; object-fit:cover; opacity: 0.8;">
+                <div style="position:absolute; bottom:20px; right:20px; width:150px; height:100px; background:#333; border-radius:10px; overflow:hidden; border:2px solid white;">
+                    <img src="https://i.pravatar.cc/100?img=5" style="width:100%; height:100%; object-fit:cover;">
+                </div>
+                <div style="position:absolute; bottom:30px; left:50%; transform:translateX(-50%); display:flex; gap:20px;">
+                    <button class="icon-btn" style="width:50px; height:50px; border-radius:50%; background:rgba(255,255,255,0.2); backdrop-filter:blur(5px); border:none; color:white; font-size:20px;">🎤</button>
+                    <button class="icon-btn" style="width:50px; height:50px; border-radius:50%; background:rgba(255,255,255,0.2); backdrop-filter:blur(5px); border:none; color:white; font-size:20px;">📷</button>
+                    <button class="icon-btn" style="width:50px; height:50px; border-radius:50%; background:var(--danger); border:none; color:white; font-size:20px;" onclick="showPage('doctor-dashboard')">📞</button>
+                </div>
+            </div>
+            <div class="panel" style="display:flex; flex-direction:column;">
+                <h3 class="title" style="font-size:16px;">Consultation Chat</h3>
+                <div id="video-chat-messages" style="flex:1; overflow-y:auto; font-size:12px; display:flex; flex-direction:column; gap:10px; padding:10px 0;">
+                    <div style="background:var(--light-gray); padding:8px; border-radius:8px; align-self:flex-start;">Hello Doctor, I'm feeling better now.</div>
+                    <div style="background:rgba(37, 99, 235, 0.1); color:var(--primary); padding:8px; border-radius:8px; align-self:flex-end;">That's great to hear, Rahul.</div>
+                </div>
+                <form id="video-chat-form" style="display:flex; gap:5px; margin-top:10px;">
+                    <input type="text" id="video-chat-input" class="form-control" placeholder="Type..." style="height:35px; padding-left:15px;">
+                    <button type="submit" class="btn btn-primary" style="padding:0 15px;">Send</button>
+                </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Page: Emergency Cases -->
+        <div id="page-emergency-cases" class="page-view">
+            <div class="hr-header" style="margin-bottom:32px;">
+                <div>
+                    <h2 class="title">🚨 Active Emergency Cases</h2>
+                    <p style="font-size: 13px; color: var(--gray);">Monitor and respond to critical situations in real-time</p>
+                </div>
+                <div class="badge badge-danger" style="padding: 10px 20px;">3 Active Emergencies</div>
+            </div>
+            <div class="panel" style="padding:0; overflow:hidden;">
+                <table class="data-table">
+                    <thead><tr><th>Patient</th><th>Location</th><th>Alert Time</th><th>Type</th><th>Status</th><th>Action</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <img src="https://i.pravatar.cc/100?img=12" style="width:32px; height:32px; border-radius:50%;">
+                                    <span>Vicky (PT001)</span>
+                                </div>
+                            </td>
+                            <td>Sector 4, Street 12</td>
+                            <td>10:45 AM</td>
+                            <td><span style="color:var(--danger); font-weight:600;">Heart Rate Alert</span></td>
+                            <td><span class="badge badge-danger">Critical</span></td>
+                            <td><button class="btn btn-primary" style="padding:6px 12px; font-size:10px;">Respond Now</button></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <img src="https://i.pravatar.cc/100?img=13" style="width:32px; height:32px; border-radius:50%;">
+                                    <span>Priya Singh</span>
+                                </div>
+                            </td>
+                            <td>Ward B, Room 202</td>
+                            <td>11:10 AM</td>
+                            <td><span style="color:var(--warning); font-weight:600;">Manual SOS</span></td>
+                            <td><span class="badge badge-warning">Monitoring</span></td>
+                            <td><button class="btn btn-primary" style="padding:6px 12px; font-size:10px;">Assign Nurse</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Modals -->
+  <!-- Vitals Modal -->
+  <div id="vitalsModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+    <div class="modal-content panel" style="width: 500px; max-height: 90vh; overflow-y: auto;">
+      <h3 style="margin-bottom: 20px;">Record Vital Signs</h3>
+      <form id="vitalsForm">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+          <div class="form-group"><label>Heart Rate (bpm)</label><input type="number" name="hr" class="form-control" value="72" required></div>
+          <div class="form-group"><label>Blood Pressure (mmHg)</label><input type="text" name="bp" class="form-control" value="120/80" required></div>
+          <div class="form-group"><label>Temperature (°F)</label><input type="number" step="0.1" name="temp" class="form-control" value="98.6" required></div>
+          <div class="form-group"><label>SpO₂ (%)</label><input type="number" name="spo2" class="form-control" value="98" required></div>
+          <div class="form-group"><label>Respiratory Rate</label><input type="number" name="resp" class="form-control" value="16" required></div>
+          <div class="form-group"><label>Weight (kg)</label><input type="number" step="0.1" name="weight" class="form-control" value="65" required></div>
+          <div class="form-group"><label>Height (cm)</label><input type="number" name="height" class="form-control" value="170" required></div>
+          <div class="form-group"><label>BMI</label><input type="number" step="0.1" name="bmi" class="form-control" value="22.5" required></div>
+        </div>
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
+          <button type="button" class="btn btn-ghost" onclick="document.getElementById('vitalsModal').style.display='none'">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Reading</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Record Modal -->
+  <div id="recordModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+    <div class="modal-content panel" style="width: 500px; max-height: 90vh; overflow-y: auto;">
+      <h3 style="margin-bottom: 20px;">Add Health Record</h3>
+      <form id="recordForm">
+        <div class="form-group"><label>Diagnosis</label><input type="text" name="diagnosis" class="form-control" required></div>
+        <div class="form-group"><label>Allergies</label><input type="text" name="allergies" class="form-control"></div>
+        <div class="form-group"><label>Medical History</label><textarea name="history" class="form-control" rows="3"></textarea></div>
+        <div class="form-group"><label>Doctor Notes</label><textarea name="notes" class="form-control" rows="3"></textarea></div>
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
+          <button type="button" class="btn btn-ghost" onclick="document.getElementById('recordModal').style.display='none'">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Vaccination Modal -->
+  <div id="vaxModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+    <div class="modal-content panel" style="width: 450px;">
+      <h3 style="margin-bottom: 20px;">Add Vaccination Record</h3>
+      <form id="vaxForm">
+        <div class="form-group"><label>Vaccine Name</label><input type="text" name="vaccine" class="form-control" required></div>
+        <div class="form-group"><label>Dose</label><input type="text" name="dose" class="form-control" placeholder="e.g. 1st Dose" required></div>
+        <div class="form-group"><label>Date Given</label><input type="date" name="date" class="form-control" required></div>
+        <div class="form-group"><label>Next Due Date</label><input type="date" name="due" class="form-control"></div>
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
+          <button type="button" class="btn btn-ghost" onclick="document.getElementById('vaxModal').style.display='none'">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Vaccination</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Medicine Modal -->
+  <div id="medicineModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+    <div class="modal-content panel" style="width: 450px;">
+      <h3 style="margin-bottom: 20px;">Add New Medicine</h3>
+      <form id="medicineForm">
+        <div class="form-group"><label>Medicine Name</label><input type="text" name="med_name" class="form-control" required></div>
+        <div class="form-group"><label>Dosage</label><input type="text" name="dosage" class="form-control" placeholder="e.g. 500mg" required></div>
+        <div style="display:flex; gap:20px; margin-bottom: 15px;">
+            <label><input type="checkbox" name="m"> Morning</label>
+            <label><input type="checkbox" name="a"> Afternoon</label>
+            <label><input type="checkbox" name="n"> Night</label>
+        </div>
+        <div class="form-group"><label>Instructions</label><input type="text" name="instructions" class="form-control" placeholder="e.g. After food"></div>
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
+          <button type="button" class="btn btn-ghost" onclick="document.getElementById('medicineModal').style.display='none'">Cancel</button>
+          <button type="submit" class="btn btn-primary">Add Medicine</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Patient Modal (for Staff) -->
+  <div id="patientModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+    <div class="modal-content panel" style="width: 500px; max-height: 90vh; overflow-y: auto;">
+      <h3 style="margin-bottom: 20px;">Register New Patient</h3>
+      <form id="addPatientForm">
+        <div class="form-group"><label>Full Name</label><input type="text" name="name" class="form-control" required></div>
+        <div class="form-group"><label>Email</label><input type="email" name="email" class="form-control" required></div>
+        <div class="form-group"><label>Phone</label><input type="tel" name="phone" class="form-control" required></div>
+        <div class="form-group"><label>Blood Group</label>
+          <select name="blood" class="form-control">
+            <option>A+</option><option>B+</option><option>O+</option><option>AB+</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Address</label><input type="text" name="address" class="form-control"></div>
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
+          <button type="button" class="btn btn-ghost" onclick="document.getElementById('patientModal').style.display='none'">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Patient</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- AI Chatbot UI -->
+  <div id="ai-chatbot-widget">
+    <div id="ai-chat-window" style="display: none;">
+      <div class="chat-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="ai-avatar">🤖</div>
+          <div>
+            <div style="font-weight: 700; font-size: 14px;">SCHMS AI Assistant</div>
+            <div style="font-size: 10px; color: #10b981;">● Online</div>
+          </div>
+        </div>
+        <button id="close-chat">×</button>
+      </div>
+      <div id="ai-chat-messages">
+        <div class="ai-msg">Hi, I am SCHMS! 👋</div>
+        <div class="ai-msg">I was created by Vignesh to help you manage your health. How can I assist you today?</div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="ai-chat-input" placeholder="Type a message or command (e.g. 'go to vitals')...">
+        <button id="send-ai-chat">➔</button>
+      </div>
+    </div>
+    <div id="ai-chat-icon">
+      <div class="pulse-ring"></div>
+      <span style="font-size: 24px;">🤖</span>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

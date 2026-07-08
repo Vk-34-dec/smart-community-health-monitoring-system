@@ -1,0 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+html,body,#root{height:100%}
+body{margin:0;background:#f5f9ff;color:#0f1724}
+h1{font-size:24px}
